@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Panel Administrativo</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+background:#020617;
+font-family:Poppins;
+color:#fff;
+padding:20px;
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+gap:20px;
+}
+
+.card{
+background:#0f172a;
+border-radius:20px;
+padding:20px;
+box-shadow:0 4px 15px rgba(0,0,0,.3);
+}
+
+.logo{
+width:100px;
+height:100px;
+border-radius:20px;
+object-fit:cover;
+display:block;
+margin:auto;
+background:#fff;
+}
+
+.name{
+font-size:20px;
+font-weight:700;
+margin-top:15px;
+text-align:center;
+}
+
+.info{
+font-size:13px;
+opacity:.8;
+margin-top:5px;
+text-align:center;
+}
+
+.buttons{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
+
+button{
+flex:1;
+border:none;
+padding:14px;
+border-radius:12px;
+font-weight:700;
+cursor:pointer;
+}
+
+.approve{
+background:#22c55e;
+color:#fff;
+}
+
+.delete{
+background:#ef4444;
+color:#fff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>📻 Radios Pendientes</h1>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+const API_URL="TU_APPS_SCRIPT_URL";
+
+const grid=document.getElementById("grid");
+
+async function cargar(){
+
+const res=await fetch(API_URL);
+
+const radios=await res.json();
+
+grid.innerHTML="";
+
+radios.reverse().forEach(r=>{
+
+const div=document.createElement("div");
+
+div.className="card";
+
+div.innerHTML=`
+
+<img class="logo" src="${r.logo}">
+
+<div class="name">${r.nombre}</div>
+
+<div class="info">${r.ciudad} - ${r.pais}</div>
+
+<div class="info">${r.descripcion}</div>
+
+<div class="buttons">
+
+<button
+class="approve"
+onclick="aprobar(${r.fila})">
+APROBAR
+</button>
+
+<button
+class="delete"
+onclick="eliminar(${r.fila})">
+ELIMINAR
+</button>
+
+</div>
+
+`;
+
+grid.appendChild(div);
+
+});
+
+}
+
+async function aprobar(fila){
+
+await fetch(API_URL,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+action:"aprobar",
+
+fila:fila
+
+})
+
+});
+
+cargar();
+
+}
+
+async function eliminar(fila){
+
+await fetch(API_URL,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+action:"eliminar",
+
+fila:fila
+
+})
+
+});
+
+cargar();
+
+}
+
+cargar();
+
+</script>
+
+</body>
+</html>
