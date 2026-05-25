@@ -8,87 +8,259 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Panel Administrativo</title>
+<title>Panel Administrativo - Radios Multiples</title>
 
 <link
-href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
 rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
 background:#020617;
-font-family:Poppins;
+
+font-family:'Poppins',sans-serif;
+
 color:#fff;
+
 padding:20px;
+
 }
 
-h1{
-text-align:center;
-margin-bottom:30px;
-}
+/* 🔥 HEADER */
+.top-bar{
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-gap:20px;
-}
-
-.card{
-background:#0f172a;
-border-radius:20px;
-padding:20px;
-box-shadow:0 4px 15px rgba(0,0,0,.3);
-}
-
-.logo{
-width:100px;
-height:100px;
-border-radius:20px;
-object-fit:cover;
-display:block;
-margin:auto;
-background:#fff;
-}
-
-.name{
-font-size:20px;
-font-weight:700;
-margin-top:15px;
-text-align:center;
-}
-
-.info{
-font-size:13px;
-opacity:.8;
-margin-top:5px;
-text-align:center;
-}
-
-.buttons{
 display:flex;
-gap:10px;
-margin-top:20px;
+justify-content:space-between;
+align-items:center;
+
+margin-bottom:25px;
+
 }
 
-button{
-flex:1;
-border:none;
+.title{
+
+font-size:32px;
+font-weight:800;
+
+}
+
+.subtitle{
+
+font-size:13px;
+color:#94a3b8;
+
+}
+
+/* 🔥 BOX */
+.admin-box{
+
+background:#111827;
+
+padding:25px;
+
+border-radius:25px;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.35);
+
+margin-bottom:25px;
+
+}
+
+/* 🔥 GRID */
+.form-grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:16px;
+
+}
+
+.input-box{
+
+display:flex;
+flex-direction:column;
+
+}
+
+.input-box label{
+
+font-size:13px;
+margin-bottom:8px;
+color:#cbd5e1;
+
+}
+
+.input-box input,
+.input-box textarea{
+
+width:100%;
+
 padding:14px;
-border-radius:12px;
+
+border:none;
+
+border-radius:14px;
+
+background:#1e293b;
+
+color:#fff;
+
+font-size:14px;
+
+outline:none;
+
+font-family:'Poppins',sans-serif;
+
+}
+
+textarea{
+resize:none;
+height:100px;
+}
+
+/* 🔥 BOTON */
+.save-btn{
+
+margin-top:20px;
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:16px;
+
+background:#2563eb;
+
+color:#fff;
+
+font-size:15px;
 font-weight:700;
+
 cursor:pointer;
+
+transition:.2s;
+
 }
 
-.approve{
-background:#22c55e;
-color:#fff;
+.save-btn:hover{
+
+transform:scale(1.01);
+
 }
 
-.delete{
-background:#ef4444;
+/* 🔥 TABLA */
+.table-box{
+
+background:#111827;
+
+padding:20px;
+
+border-radius:25px;
+
+overflow:auto;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+th{
+
+background:#1e293b;
+
+padding:14px;
+
+font-size:13px;
+
+text-align:left;
+
+}
+
+td{
+
+padding:14px;
+
+border-bottom:1px solid rgba(255,255,255,.05);
+
+font-size:13px;
+
+vertical-align:middle;
+
+}
+
+.logo-img{
+
+width:60px;
+height:60px;
+
+object-fit:cover;
+
+border-radius:14px;
+
+background:#fff;
+
+}
+
+.action-btn{
+
+border:none;
+
+padding:10px 14px;
+
+border-radius:12px;
+
+cursor:pointer;
+
 color:#fff;
+
+font-size:12px;
+font-weight:700;
+
+margin-right:6px;
+
+}
+
+.edit-btn{
+background:#2563eb;
+}
+
+.delete-btn{
+background:#dc2626;
+}
+
+/* 🔥 RESPONSIVE */
+@media(max-width:900px){
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+table{
+font-size:11px;
+}
+
 }
 
 </style>
@@ -97,105 +269,407 @@ color:#fff;
 
 <body>
 
-<h1>📻 Radios Pendientes</h1>
+<!-- 🔥 HEADER -->
+<div class="top-bar">
 
-<div class="grid" id="grid"></div>
+<div>
 
-<script>
+<div class="title">
+RADIOS MULTIPLES
+</div>
 
-const API_URL="TU_APPS_SCRIPT_URL";
+<div class="subtitle">
+Panel Administrativo conectado a Google Sheets
+</div>
 
-const grid=document.getElementById("grid");
+</div>
 
-async function cargar(){
+</div>
 
-const res=await fetch(API_URL);
+<!-- 🔥 FORMULARIO -->
+<div class="admin-box">
 
-const radios=await res.json();
+<div class="form-grid">
 
-grid.innerHTML="";
+<div class="input-box">
+<label>Nombre Emisora</label>
+<input type="text" id="name">
+</div>
 
-radios.reverse().forEach(r=>{
+<div class="input-box">
+<label>Logo URL</label>
+<input type="text" id="logo">
+</div>
 
-const div=document.createElement("div");
+<div class="input-box">
+<label>Stream URL</label>
+<input type="text" id="stream">
+</div>
 
-div.className="card";
+<div class="input-box">
+<label>Ciudad</label>
+<input type="text" id="city">
+</div>
 
-div.innerHTML=`
+<div class="input-box">
+<label>País</label>
+<input type="text" id="country">
+</div>
 
-<img class="logo" src="${r.logo}">
+<div class="input-box">
+<label>Sitio Web</label>
+<input type="text" id="web">
+</div>
 
-<div class="name">${r.nombre}</div>
+<div class="input-box">
+<label>WhatsApp</label>
+<input type="text" id="whatsapp">
+</div>
 
-<div class="info">${r.ciudad} - ${r.pais}</div>
+<div class="input-box">
+<label>Facebook</label>
+<input type="text" id="facebook">
+</div>
 
-<div class="info">${r.descripcion}</div>
+<div class="input-box">
+<label>Instagram</label>
+<input type="text" id="instagram">
+</div>
 
-<div class="buttons">
+<div class="input-box">
+<label>URL</label>
+<input type="text" id="url">
+</div>
 
-<button
-class="approve"
-onclick="aprobar(${r.fila})">
-APROBAR
-</button>
+<div class="input-box" style="grid-column:1/-1;">
+<label>Descripción</label>
+<textarea id="description"></textarea>
+</div>
 
-<button
-class="delete"
-onclick="eliminar(${r.fila})">
-ELIMINAR
+</div>
+
+<button class="save-btn" onclick="saveRadio()">
+
+<i class="fas fa-save"></i>
+Guardar Emisora
+
 </button>
 
 </div>
 
+<!-- 🔥 TABLA -->
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Logo</th>
+<th>Nombre</th>
+<th>País</th>
+<th>Ciudad</th>
+<th>Stream</th>
+<th>Acciones</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableData">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+/* 🔥 GOOGLE APPS SCRIPT */
+const API_URL="https://script.google.com/macros/s/AKfycbwMv3ou-kKJSv0GONVg1Vkf805qK1XLyqkWZgMW2qvbbx1JgUu-RkBHBM7JaXmqsqdXRw/exec";
+
+let radios=[];
+
+let editIndex=-1;
+
+/* 🔥 CARGAR DATOS */
+async function loadRadios(){
+
+try{
+
+const response=
+await fetch(API_URL);
+
+radios=
+await response.json();
+
+renderTable();
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+/* 🔥 MOSTRAR TABLA */
+function renderTable(){
+
+const table=
+document.getElementById("tableData");
+
+table.innerHTML="";
+
+radios.forEach((radio,index)=>{
+
+table.innerHTML+=`
+
+<tr>
+
+<td>
+
+<img
+src="${radio.Logo || ''}"
+class="logo-img">
+
+</td>
+
+<td>
+
+${radio.Nombre || ''}
+
+</td>
+
+<td>
+
+${radio["País"] || ''}
+
+</td>
+
+<td>
+
+${radio.Ciudad || ''}
+
+</td>
+
+<td style="max-width:200px;word-break:break-all;">
+
+${radio.Stream || ''}
+
+</td>
+
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick="editRadio(${index})">
+
+<i class="fas fa-edit"></i>
+
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteRadio(${index})">
+
+<i class="fas fa-trash"></i>
+
+</button>
+
+</td>
+
+</tr>
+
 `;
 
-grid.appendChild(div);
-
 });
 
 }
 
-async function aprobar(fila){
+/* 🔥 GUARDAR */
+async function saveRadio(){
+
+const radio={
+
+Nombre:
+document.getElementById("name").value,
+
+Logo:
+document.getElementById("logo").value,
+
+Stream:
+document.getElementById("stream").value,
+
+Ciudad:
+document.getElementById("city").value,
+
+País:
+document.getElementById("country").value,
+
+Descripción:
+document.getElementById("description").value,
+
+Web:
+document.getElementById("web").value,
+
+WhatsApp:
+document.getElementById("whatsapp").value,
+
+Facebook:
+document.getElementById("facebook").value,
+
+Instagram:
+document.getElementById("instagram").value,
+
+URL:
+document.getElementById("url").value
+
+};
+
+if(radio.Nombre===""){
+
+alert("Ingrese nombre");
+
+return;
+
+}
+
+/* 🔥 EDITAR */
+if(editIndex>-1){
 
 await fetch(API_URL,{
 
-method:"POST",
+method:"PUT",
 
 body:JSON.stringify({
 
-action:"aprobar",
+index:editIndex,
 
-fila:fila
+radio:radio
 
 })
 
 });
 
-cargar();
+alert("Emisora actualizada");
+
+editIndex=-1;
 
 }
 
-async function eliminar(fila){
+/* 🔥 NUEVO */
+else{
 
 await fetch(API_URL,{
 
 method:"POST",
 
+body:JSON.stringify(radio)
+
+});
+
+alert("Emisora guardada");
+
+}
+
+clearForm();
+
+loadRadios();
+
+}
+
+/* 🔥 EDITAR */
+function editRadio(index){
+
+const radio=
+radios[index];
+
+document.getElementById("name").value=
+radio.Nombre || "";
+
+document.getElementById("logo").value=
+radio.Logo || "";
+
+document.getElementById("stream").value=
+radio.Stream || "";
+
+document.getElementById("city").value=
+radio.Ciudad || "";
+
+document.getElementById("country").value=
+radio["País"] || "";
+
+document.getElementById("description").value=
+radio["Descripción"] || "";
+
+document.getElementById("web").value=
+radio.Web || "";
+
+document.getElementById("whatsapp").value=
+radio.WhatsApp || "";
+
+document.getElementById("facebook").value=
+radio.Facebook || "";
+
+document.getElementById("instagram").value=
+radio.Instagram || "";
+
+document.getElementById("url").value=
+radio.URL || "";
+
+editIndex=index;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+/* 🔥 ELIMINAR */
+async function deleteRadio(index){
+
+if(!confirm("Eliminar emisora?"))
+return;
+
+await fetch(API_URL,{
+
+method:"DELETE",
+
 body:JSON.stringify({
-
-action:"eliminar",
-
-fila:fila
-
+index:index
 })
 
 });
 
-cargar();
+alert("Emisora eliminada");
+
+loadRadios();
 
 }
 
-cargar();
+/* 🔥 LIMPIAR */
+function clearForm(){
+
+document.getElementById("name").value="";
+document.getElementById("logo").value="";
+document.getElementById("stream").value="";
+document.getElementById("city").value="";
+document.getElementById("country").value="";
+document.getElementById("description").value="";
+document.getElementById("web").value="";
+document.getElementById("whatsapp").value="";
+document.getElementById("facebook").value="";
+document.getElementById("instagram").value="";
+document.getElementById("url").value="";
+
+}
+
+/* 🔥 INICIO */
+loadRadios();
 
 </script>
 
