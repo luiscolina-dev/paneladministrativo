@@ -10,7 +10,7 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 
 <meta
 name="theme-color"
-content="#0b1120">
+content="#020617">
 
 <title>Panel Administrativo</title>
 
@@ -44,10 +44,11 @@ height:100%;
 overflow:hidden;
 font-family:Poppins,sans-serif;
 background:
-linear-gradient(rgba(2,6,23,.95),rgba(2,6,23,.98)),
+linear-gradient(rgba(2,6,23,.94),rgba(2,6,23,.98)),
 url("https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop");
 background-size:cover;
 background-position:center;
+background-repeat:no-repeat;
 background-attachment:fixed;
 color:#fff;
 position:fixed;
@@ -60,14 +61,14 @@ width:100%;
 height:100dvh;
 overflow-y:auto;
 overflow-x:hidden;
-padding:10px;
-padding-bottom:20px;
+padding:8px;
+padding-bottom:12px;
 -webkit-overflow-scrolling:touch;
 }
 
 /* 🔥 SCROLL */
 .admin-app::-webkit-scrollbar{
-width:4px;
+width:3px;
 }
 
 .admin-app::-webkit-scrollbar-thumb{
@@ -78,11 +79,9 @@ border-radius:20px;
 /* 🔥 TOPBAR */
 .topbar{
 display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin-bottom:12px;
-flex-wrap:wrap;
+flex-direction:column;
+gap:8px;
+margin-bottom:10px;
 }
 
 /* 🔥 LOGO */
@@ -91,93 +90,77 @@ display:flex;
 align-items:center;
 gap:10px;
 width:100%;
+padding:10px;
+background:rgba(2,6,23,.70);
+border:1px solid rgba(255,255,255,.04);
+border-radius:18px;
+backdrop-filter:blur(12px);
 }
 
 .panel-logo{
-width:52px;
-height:52px;
-border-radius:16px;
+width:50px;
+height:50px;
+border-radius:14px;
 object-fit:cover;
 background:#fff;
 padding:3px;
-box-shadow:0 8px 20px rgba(0,0,0,.35);
 flex-shrink:0;
 }
 
 /* 🔥 TITULO */
 h1{
-font-size:20px;
+font-size:18px;
 font-weight:800;
 line-height:1;
 }
 
 .subtitle{
 opacity:.7;
-margin-top:2px;
-font-size:11px;
+margin-top:3px;
+font-size:10px;
 }
 
 /* 🔥 CONTADORES */
 .status-box{
 display:flex;
+flex-direction:column;
 gap:8px;
 width:100%;
-flex-direction:column;
 }
 
 .status-item{
 display:flex;
 align-items:center;
 gap:10px;
-background:rgba(15,23,42,.92);
 padding:10px;
 border-radius:18px;
+backdrop-filter:blur(12px);
 border:1px solid rgba(255,255,255,.05);
-backdrop-filter:blur(10px);
-box-shadow:0 6px 20px rgba(0,0,0,.25);
 }
 
-/* 🔥 ICONOS */
+.status-item.pending{
+background:rgba(15,23,42,.88);
+}
+
+.status-item.approved{
+background:rgba(5,46,22,.88);
+border-color:#166534;
+}
+
 .status-icon{
-width:42px;
-height:42px;
-border-radius:14px;
+width:40px;
+height:40px;
+border-radius:13px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:18px;
-background:rgba(255,255,255,.05);
+font-size:17px;
 flex-shrink:0;
 }
 
-/* 🔥 INFO */
-.status-info{
-display:flex;
-flex-direction:column;
-}
-
-.status-title{
-font-size:11px;
-font-weight:600;
-opacity:.7;
-}
-
-.status-number{
-font-size:20px;
-font-weight:800;
-margin-top:2px;
-}
-
-/* 🔥 PENDIENTES */
 .status-item.pending .status-icon{
-background:rgba(234,179,8,.15);
+background:rgba(234,179,8,.12);
 border:1px solid rgba(234,179,8,.25);
-}
-
-/* 🔥 APROBADAS */
-.status-item.approved{
-background:rgba(5,46,22,.92);
-border-color:#166534;
 }
 
 .status-item.approved .status-icon{
@@ -185,64 +168,74 @@ background:rgba(34,197,94,.15);
 border:1px solid rgba(34,197,94,.25);
 }
 
+.status-title{
+font-size:11px;
+opacity:.7;
+font-weight:600;
+}
+
+.status-number{
+font-size:18px;
+font-weight:800;
+margin-top:2px;
+}
+
 /* 🔥 TITULOS */
 .section-title{
-font-size:16px;
+font-size:15px;
 font-weight:800;
-margin-top:16px;
-margin-bottom:10px;
+margin-top:12px;
+margin-bottom:8px;
 display:flex;
 align-items:center;
-gap:8px;
+gap:6px;
 }
 
 /* 🔥 GRID */
 .grid{
 display:grid;
 grid-template-columns:1fr;
-gap:12px;
+gap:10px;
 }
 
 /* 🔥 CARD */
 .card{
-background:rgba(15,23,42,.88);
-border-radius:22px;
-padding:14px;
+background:rgba(15,23,42,.82);
+border-radius:20px;
+padding:12px;
 border:1px solid rgba(255,255,255,.04);
 backdrop-filter:blur(12px);
-box-shadow:0 8px 25px rgba(0,0,0,.30);
 overflow:hidden;
 }
 
 /* 🔥 LOGO RADIO */
 .logo{
-width:75px;
-height:75px;
-border-radius:18px;
+width:68px;
+height:68px;
+border-radius:16px;
 object-fit:cover;
 display:block;
 margin:auto;
 background:#fff;
 padding:3px;
-box-shadow:0 8px 20px rgba(0,0,0,.25);
 }
 
 /* 🔥 NOMBRE */
 .name{
-font-size:15px;
+font-size:14px;
 font-weight:800;
-margin-top:12px;
+margin-top:10px;
 text-align:center;
 line-height:1.2;
 }
 
 /* 🔥 INFO */
 .info{
-font-size:11px;
-opacity:.92;
-margin-top:5px;
+font-size:10px;
+opacity:.9;
+margin-top:4px;
 text-align:center;
-line-height:1.4;
+line-height:1.3;
 word-break:break-word;
 color:#cbd5e1;
 }
@@ -250,28 +243,27 @@ color:#cbd5e1;
 /* 🔥 AUDIO */
 audio{
 width:100%;
-margin-top:10px;
-border-radius:12px;
-height:34px;
+margin-top:8px;
+height:30px;
+border-radius:10px;
 }
 
 /* 🔥 BOTONES */
 .buttons{
 display:flex;
 flex-direction:column;
-gap:8px;
-margin-top:12px;
+gap:7px;
+margin-top:10px;
 }
 
 button{
 width:100%;
 border:none;
-padding:11px;
-border-radius:14px;
+padding:9px;
+border-radius:12px;
 font-weight:700;
 cursor:pointer;
-font-size:12px;
-transition:.2s;
+font-size:11px;
 font-family:Poppins;
 }
 
@@ -292,29 +284,29 @@ color:#fff;
 /* 🔥 VACIO */
 .empty{
 width:100%;
-padding:35px 15px;
+padding:25px 12px;
 text-align:center;
-font-size:14px;
+font-size:13px;
 font-weight:600;
-opacity:.7;
-background:rgba(15,23,42,.65);
+opacity:.75;
+background:rgba(15,23,42,.60);
 border-radius:18px;
 }
 
 /* 🔥 FOOTER */
 .footer{
-margin-top:20px;
+margin-top:14px;
 text-align:center;
-opacity:.55;
-font-size:10px;
-padding-bottom:10px;
+opacity:.5;
+font-size:9px;
+padding-bottom:5px;
 }
 
-/* 🔥 TABLETS */
+/* 🔥 TABLET */
 @media(min-width:700px){
 
 .admin-app{
-padding:18px;
+padding:15px;
 }
 
 .status-box{
@@ -346,36 +338,91 @@ flex:1;
 grid-template-columns:repeat(3,1fr);
 }
 
+h1{
+font-size:24px;
 }
 
-/* 🔥 TELEFONOS PEQUEÑOS */
-@media(max-height:700px){
-
 .section-title{
-margin-top:12px;
-margin-bottom:8px;
+font-size:20px;
+}
+
+}
+
+/* 🔥 TELEFONOS BAJOS */
+@media(max-height:740px){
+
+.admin-app{
+padding:6px;
+}
+
+.logo-box{
+padding:8px;
+}
+
+.panel-logo{
+width:45px;
+height:45px;
+}
+
+h1{
+font-size:16px;
 }
 
 .status-item{
 padding:8px;
 }
 
-.logo{
-width:65px;
-height:65px;
+.status-icon{
+width:35px;
+height:35px;
+font-size:15px;
+}
+
+.status-number{
+font-size:16px;
+}
+
+.section-title{
+font-size:14px;
+margin-top:10px;
+margin-bottom:6px;
 }
 
 .card{
-padding:12px;
+padding:10px;
+}
+
+.logo{
+width:60px;
+height:60px;
+}
+
+.name{
+font-size:13px;
+}
+
+.info{
+font-size:9px;
 }
 
 audio{
-height:30px;
+height:28px;
+margin-top:6px;
 }
 
 button{
-padding:9px;
-font-size:11px;
+padding:8px;
+font-size:10px;
+}
+
+.empty{
+padding:20px 10px;
+font-size:12px;
+}
+
+.footer{
+margin-top:10px;
+font-size:8px;
 }
 
 }
@@ -414,14 +461,13 @@ Panel Administrativo
 <!-- 🔥 CONTADORES -->
 <div class="status-box">
 
-<!-- 🔥 PENDIENTES -->
 <div class="status-item pending">
 
 <div class="status-icon">
 🕒
 </div>
 
-<div class="status-info">
+<div>
 
 <div class="status-title">
 Radios Pendientes
@@ -435,14 +481,13 @@ Radios Pendientes
 
 </div>
 
-<!-- 🔥 APROBADAS -->
 <div class="status-item approved">
 
 <div class="status-icon">
 ✅
 </div>
 
-<div class="status-info">
+<div>
 
 <div class="status-title">
 Radios Aprobadas
