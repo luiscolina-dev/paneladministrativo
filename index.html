@@ -1,677 +1,95 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+const SHEET_ID = "10NrnsbJPetNy4up8Ujj4IQJvq38CEkAlX9WauZ8gtto";
 
-<meta charset="UTF-8">
+function doGet() {
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Panel Administrativo - Radios Multiples</title>
-
-<link
-href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-rel="stylesheet">
-
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-
-background:#020617;
-
-font-family:'Poppins',sans-serif;
-
-color:#fff;
-
-padding:20px;
+  return ContentService
+  .createTextOutput(
+    JSON.stringify(getPendientes())
+  )
+  .setMimeType(ContentService.MimeType.JSON);
 
 }
 
-/* 🔥 HEADER */
-.top-bar{
+function getPendientes(){
 
-display:flex;
-justify-content:space-between;
-align-items:center;
+  const ss = SpreadsheetApp.openById(SHEET_ID);
 
-margin-bottom:25px;
+  const sheet = ss.getSheetByName("Pendientes");
 
-}
+  const data = sheet.getDataRange().getValues();
 
-.title{
+  data.shift();
 
-font-size:32px;
-font-weight:800;
+  return data.map((r,i)=>({
 
-}
+    fila:i+2,
 
-.subtitle{
+    nombre:r[0],
+    logo:r[1],
+    stream:r[2],
+    ciudad:r[3],
+    pais:r[4],
+    descripcion:r[5],
+    web:r[6],
+    whatsapp:r[7],
+    facebook:r[8],
+    instagram:r[9],
+    url:r[10]
 
-font-size:13px;
-color:#94a3b8;
-
-}
-
-/* 🔥 BOX */
-.admin-box{
-
-background:#111827;
-
-padding:25px;
-
-border-radius:25px;
-
-box-shadow:
-0 10px 25px rgba(0,0,0,.35);
-
-margin-bottom:25px;
+  }));
 
 }
 
-/* 🔥 GRID */
-.form-grid{
+function doPost(e){
 
-display:grid;
+  const data = JSON.parse(e.postData.contents);
 
-grid-template-columns:1fr 1fr;
+  if(data.action==="aprobar"){
 
-gap:16px;
+    aprobarRadio(data.fila);
 
-}
+  }
 
-.input-box{
+  if(data.action==="eliminar"){
 
-display:flex;
-flex-direction:column;
+    eliminarRadio(data.fila);
 
-}
+  }
 
-.input-box label{
-
-font-size:13px;
-margin-bottom:8px;
-color:#cbd5e1;
-
-}
-
-.input-box input,
-.input-box textarea{
-
-width:100%;
-
-padding:14px;
-
-border:none;
-
-border-radius:14px;
-
-background:#1e293b;
-
-color:#fff;
-
-font-size:14px;
-
-outline:none;
-
-font-family:'Poppins',sans-serif;
+  return ContentService
+  .createTextOutput(
+    JSON.stringify({
+      status:"ok"
+    })
+  )
+  .setMimeType(ContentService.MimeType.JSON);
 
 }
 
-textarea{
-resize:none;
-height:100px;
-}
+function aprobarRadio(fila){
 
-/* 🔥 BOTON */
-.save-btn{
+  const ss = SpreadsheetApp.openById(SHEET_ID);
 
-margin-top:20px;
+  const pendientes = ss.getSheetByName("Pendientes");
 
-width:100%;
+  const aprobadas = ss.getSheetByName("Aprobadas");
 
-padding:16px;
+  const data = pendientes
+  .getRange(fila,1,1,11)
+  .getValues()[0];
 
-border:none;
+  aprobadas.appendRow(data);
 
-border-radius:16px;
-
-background:#2563eb;
-
-color:#fff;
-
-font-size:15px;
-font-weight:700;
-
-cursor:pointer;
-
-transition:.2s;
+  pendientes.deleteRow(fila);
 
 }
 
-.save-btn:hover{
+function eliminarRadio(fila){
 
-transform:scale(1.01);
+  const ss = SpreadsheetApp.openById(SHEET_ID);
 
-}
+  const pendientes = ss.getSheetByName("Pendientes");
 
-/* 🔥 TABLA */
-.table-box{
-
-background:#111827;
-
-padding:20px;
-
-border-radius:25px;
-
-overflow:auto;
+  pendientes.deleteRow(fila);
 
 }
-
-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-}
-
-th{
-
-background:#1e293b;
-
-padding:14px;
-
-font-size:13px;
-
-text-align:left;
-
-}
-
-td{
-
-padding:14px;
-
-border-bottom:1px solid rgba(255,255,255,.05);
-
-font-size:13px;
-
-vertical-align:middle;
-
-}
-
-.logo-img{
-
-width:60px;
-height:60px;
-
-object-fit:cover;
-
-border-radius:14px;
-
-background:#fff;
-
-}
-
-.action-btn{
-
-border:none;
-
-padding:10px 14px;
-
-border-radius:12px;
-
-cursor:pointer;
-
-color:#fff;
-
-font-size:12px;
-font-weight:700;
-
-margin-right:6px;
-
-}
-
-.edit-btn{
-background:#2563eb;
-}
-
-.delete-btn{
-background:#dc2626;
-}
-
-/* 🔥 RESPONSIVE */
-@media(max-width:900px){
-
-.form-grid{
-grid-template-columns:1fr;
-}
-
-table{
-font-size:11px;
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<!-- 🔥 HEADER -->
-<div class="top-bar">
-
-<div>
-
-<div class="title">
-RADIOS MULTIPLES
-</div>
-
-<div class="subtitle">
-Panel Administrativo conectado a Google Sheets
-</div>
-
-</div>
-
-</div>
-
-<!-- 🔥 FORMULARIO -->
-<div class="admin-box">
-
-<div class="form-grid">
-
-<div class="input-box">
-<label>Nombre Emisora</label>
-<input type="text" id="name">
-</div>
-
-<div class="input-box">
-<label>Logo URL</label>
-<input type="text" id="logo">
-</div>
-
-<div class="input-box">
-<label>Stream URL</label>
-<input type="text" id="stream">
-</div>
-
-<div class="input-box">
-<label>Ciudad</label>
-<input type="text" id="city">
-</div>
-
-<div class="input-box">
-<label>País</label>
-<input type="text" id="country">
-</div>
-
-<div class="input-box">
-<label>Sitio Web</label>
-<input type="text" id="web">
-</div>
-
-<div class="input-box">
-<label>WhatsApp</label>
-<input type="text" id="whatsapp">
-</div>
-
-<div class="input-box">
-<label>Facebook</label>
-<input type="text" id="facebook">
-</div>
-
-<div class="input-box">
-<label>Instagram</label>
-<input type="text" id="instagram">
-</div>
-
-<div class="input-box">
-<label>URL</label>
-<input type="text" id="url">
-</div>
-
-<div class="input-box" style="grid-column:1/-1;">
-<label>Descripción</label>
-<textarea id="description"></textarea>
-</div>
-
-</div>
-
-<button class="save-btn" onclick="saveRadio()">
-
-<i class="fas fa-save"></i>
-Guardar Emisora
-
-</button>
-
-</div>
-
-<!-- 🔥 TABLA -->
-<div class="table-box">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Logo</th>
-<th>Nombre</th>
-<th>País</th>
-<th>Ciudad</th>
-<th>Stream</th>
-<th>Acciones</th>
-
-</tr>
-
-</thead>
-
-<tbody id="tableData">
-
-</tbody>
-
-</table>
-
-</div>
-
-<script>
-
-/* 🔥 GOOGLE APPS SCRIPT */
-const API_URL="https://script.google.com/macros/s/AKfycbwMv3ou-kKJSv0GONVg1Vkf805qK1XLyqkWZgMW2qvbbx1JgUu-RkBHBM7JaXmqsqdXRw/exec";
-
-let radios=[];
-
-let editIndex=-1;
-
-/* 🔥 CARGAR DATOS */
-async function loadRadios(){
-
-try{
-
-const response=
-await fetch(API_URL);
-
-radios=
-await response.json();
-
-renderTable();
-
-}catch(error){
-
-console.log(error);
-
-}
-
-}
-
-/* 🔥 MOSTRAR TABLA */
-function renderTable(){
-
-const table=
-document.getElementById("tableData");
-
-table.innerHTML="";
-
-radios.forEach((radio,index)=>{
-
-table.innerHTML+=`
-
-<tr>
-
-<td>
-
-<img
-src="${radio.Logo || ''}"
-class="logo-img">
-
-</td>
-
-<td>
-
-${radio.Nombre || ''}
-
-</td>
-
-<td>
-
-${radio["País"] || ''}
-
-</td>
-
-<td>
-
-${radio.Ciudad || ''}
-
-</td>
-
-<td style="max-width:200px;word-break:break-all;">
-
-${radio.Stream || ''}
-
-</td>
-
-<td>
-
-<button
-class="action-btn edit-btn"
-onclick="editRadio(${index})">
-
-<i class="fas fa-edit"></i>
-
-</button>
-
-<button
-class="action-btn delete-btn"
-onclick="deleteRadio(${index})">
-
-<i class="fas fa-trash"></i>
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-}
-
-/* 🔥 GUARDAR */
-async function saveRadio(){
-
-const radio={
-
-Nombre:
-document.getElementById("name").value,
-
-Logo:
-document.getElementById("logo").value,
-
-Stream:
-document.getElementById("stream").value,
-
-Ciudad:
-document.getElementById("city").value,
-
-País:
-document.getElementById("country").value,
-
-Descripción:
-document.getElementById("description").value,
-
-Web:
-document.getElementById("web").value,
-
-WhatsApp:
-document.getElementById("whatsapp").value,
-
-Facebook:
-document.getElementById("facebook").value,
-
-Instagram:
-document.getElementById("instagram").value,
-
-URL:
-document.getElementById("url").value
-
-};
-
-if(radio.Nombre===""){
-
-alert("Ingrese nombre");
-
-return;
-
-}
-
-/* 🔥 EDITAR */
-if(editIndex>-1){
-
-await fetch(API_URL,{
-
-method:"PUT",
-
-body:JSON.stringify({
-
-index:editIndex,
-
-radio:radio
-
-})
-
-});
-
-alert("Emisora actualizada");
-
-editIndex=-1;
-
-}
-
-/* 🔥 NUEVO */
-else{
-
-await fetch(API_URL,{
-
-method:"POST",
-
-body:JSON.stringify(radio)
-
-});
-
-alert("Emisora guardada");
-
-}
-
-clearForm();
-
-loadRadios();
-
-}
-
-/* 🔥 EDITAR */
-function editRadio(index){
-
-const radio=
-radios[index];
-
-document.getElementById("name").value=
-radio.Nombre || "";
-
-document.getElementById("logo").value=
-radio.Logo || "";
-
-document.getElementById("stream").value=
-radio.Stream || "";
-
-document.getElementById("city").value=
-radio.Ciudad || "";
-
-document.getElementById("country").value=
-radio["País"] || "";
-
-document.getElementById("description").value=
-radio["Descripción"] || "";
-
-document.getElementById("web").value=
-radio.Web || "";
-
-document.getElementById("whatsapp").value=
-radio.WhatsApp || "";
-
-document.getElementById("facebook").value=
-radio.Facebook || "";
-
-document.getElementById("instagram").value=
-radio.Instagram || "";
-
-document.getElementById("url").value=
-radio.URL || "";
-
-editIndex=index;
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-/* 🔥 ELIMINAR */
-async function deleteRadio(index){
-
-if(!confirm("Eliminar emisora?"))
-return;
-
-await fetch(API_URL,{
-
-method:"DELETE",
-
-body:JSON.stringify({
-index:index
-})
-
-});
-
-alert("Emisora eliminada");
-
-loadRadios();
-
-}
-
-/* 🔥 LIMPIAR */
-function clearForm(){
-
-document.getElementById("name").value="";
-document.getElementById("logo").value="";
-document.getElementById("stream").value="";
-document.getElementById("city").value="";
-document.getElementById("country").value="";
-document.getElementById("description").value="";
-document.getElementById("web").value="";
-document.getElementById("whatsapp").value="";
-document.getElementById("facebook").value="";
-document.getElementById("instagram").value="";
-document.getElementById("url").value="";
-
-}
-
-/* 🔥 INICIO */
-loadRadios();
-
-</script>
-
-</body>
-</html>
