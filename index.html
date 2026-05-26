@@ -603,6 +603,8 @@ RADIOS MULTIPLES © 2026
 
 </div>
 
+<!-- 🔥 REEMPLAZA TODO TU BLOQUE <script> POR ESTE -->
+
 <script>
 
 /* 🔥 API */
@@ -628,6 +630,7 @@ let cargando = false;
 /* 🔥 CREAR CARD */
 function crearCard(radio,pendiente=true,index=0){
 
+/* 🔥 PENDIENTES */
 if(pendiente){
 
 return `
@@ -696,6 +699,7 @@ onclick="eliminar(${radio.fila})">
 
 }
 
+/* 🔥 APROBADAS */
 return `
 
 <div class="approved-item">
@@ -758,6 +762,7 @@ await response.json();
 
 console.log("DATOS:",data);
 
+/* 🔥 ARRAYS */
 const pendientes =
 Array.isArray(data.pendientes)
 ? data.pendientes
@@ -768,6 +773,7 @@ Array.isArray(data.aprobadas)
 ? data.aprobadas
 : [];
 
+/* 🔥 CONTADORES */
 pendingCount.textContent =
 pendientes.length;
 
@@ -790,6 +796,49 @@ pendingGrid.innerHTML =
 pendientes.map((radio,index)=>
 crearCard(radio,true,index)
 ).join("");
+
+}
+
+/* 🔥 APROBADAS */
+if(aprobadas.length === 0){
+
+approvedGrid.innerHTML =
+`
+<div class="empty">
+📻 No hay radios aprobadas
+</div>
+`;
+
+}else{
+
+approvedGrid.innerHTML =
+aprobadas.map((radio,index)=>
+crearCard(radio,false,index)
+).join("");
+
+}
+
+}catch(error){
+
+console.log("ERROR:",error);
+
+pendingGrid.innerHTML =
+`
+<div class="empty">
+❌ Error cargando radios
+</div>
+`;
+
+approvedGrid.innerHTML =
+`
+<div class="empty">
+⚠️ ${error.message}
+</div>
+`;
+
+}
+
+cargando = false;
 
 }
 
@@ -829,7 +878,7 @@ await response.json();
 
 console.log("APROBADA:",data);
 
-/* 🔥 RECARGA INSTANTE */
+/* 🔥 RECARGA */
 await cargarRadios();
 
 }catch(error){
@@ -890,7 +939,7 @@ await response.json();
 
 console.log("ELIMINADA:",data);
 
-/* 🔥 RECARGA INSTANTE */
+/* 🔥 RECARGA */
 await cargarRadios();
 
 }catch(error){
@@ -907,127 +956,13 @@ alert(
 }
 
 }
-/* 🔥 APROBAR */
-async function aprobar(fila){
-
-try{
-
-const response = await fetch(API_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body: JSON.stringify({
-
-action:"aprobar",
-
-fila:fila
-
-})
-
-});
-
-const data = await response.json();
-
-console.log(data);
-
-/* 🔥 RECARGA */
-setTimeout(()=>{
-
-cargarRadios();
-
-},800);
-
-}catch(error){
-
-console.log("ERROR APROBAR:",error);
-
-alert("❌ Error al aprobar");
-
-}
-
-}
-
-/* 🔥 RECARGA INSTANTE */
-await cargarRadios();
-
-}catch(error){
-
-console.log("ERROR APROBAR:",error);
-
-alert("❌ Error al aprobar");
-
-}
-
-}
-
-/* 🔥 ELIMINAR */
-async function eliminar(fila){
-
-const confirmar =
-confirm("¿Eliminar esta radio?");
-
-if(!confirmar) return;
-
-try{
-
-const response = await fetch(API_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body: JSON.stringify({
-
-action:"eliminar",
-
-fila:fila
-
-})
-
-});
-
-const data = await response.json();
-
-console.log(data);
-
-/* 🔥 RECARGA */
-setTimeout(()=>{
-
-cargarRadios();
-
-},800);
-
-}catch(error){
-
-console.log("ERROR ELIMINAR:",error);
-
-alert("❌ Error al eliminar");
-
-}
-
-}
-
-/* 🔥 RECARGA INSTANTE */
-await cargarRadios();
-
-}catch(error){
-
-console.log("ERROR ELIMINAR:",error);
-
-alert("❌ Error al eliminar");
-
-}
-
-}
 
 /* 🔥 AUTO ACTUALIZACIÓN */
-setInterval(cargarRadios,3000);
+setInterval(()=>{
+
+cargarRadios();
+
+},5000);
 
 /* 🔥 RECARGAR AL VOLVER */
 document.addEventListener(
