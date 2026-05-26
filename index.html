@@ -24,33 +24,198 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <style>
 
-/* 🔥 CONTENEDOR PENDIENTES */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html{
+width:100%;
+height:100%;
+overflow:hidden;
+overscroll-behavior:none;
+}
+
+body{
+width:100%;
+height:100%;
+overflow:hidden;
+font-family:Poppins,sans-serif;
+background:
+linear-gradient(rgba(2,6,23,.94),rgba(2,6,23,.98)),
+url("https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=1200&auto=format&fit=crop");
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
+color:#fff;
+position:fixed;
+inset:0;
+}
+
+/* 🔥 APP */
+.admin-app{
+width:100%;
+height:100dvh;
+overflow-y:auto;
+overflow-x:hidden;
+padding:14px;
+padding-bottom:25px;
+-webkit-overflow-scrolling:touch;
+}
+
+/* 🔥 SCROLL */
+.admin-app::-webkit-scrollbar{
+width:3px;
+}
+
+.admin-app::-webkit-scrollbar-thumb{
+background:#334155;
+border-radius:20px;
+}
+
+/* 🔥 TOPBAR */
+.topbar{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-bottom:15px;
+}
+
+/* 🔥 LOGO */
+.logo-box{
+display:flex;
+align-items:center;
+gap:12px;
+width:100%;
+padding:14px;
+background:rgba(2,6,23,.70);
+border:1px solid rgba(255,255,255,.05);
+border-radius:22px;
+backdrop-filter:blur(12px);
+}
+
+.panel-logo{
+width:65px;
+height:65px;
+border-radius:18px;
+object-fit:cover;
+background:#fff;
+padding:3px;
+flex-shrink:0;
+}
+
+/* 🔥 TITULO */
+h1{
+font-size:24px;
+font-weight:800;
+line-height:1;
+}
+
+.subtitle{
+opacity:.7;
+margin-top:4px;
+font-size:12px;
+}
+
+/* 🔥 CONTADORES */
+.status-box{
+display:flex;
+flex-direction:column;
+gap:10px;
+width:100%;
+}
+
+.status-item{
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px;
+border-radius:22px;
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.05);
+}
+
+.status-item.pending{
+background:rgba(15,23,42,.88);
+}
+
+.status-item.approved{
+background:rgba(5,46,22,.88);
+border-color:#166534;
+}
+
+.status-icon{
+width:52px;
+height:52px;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+flex-shrink:0;
+}
+
+.status-item.pending .status-icon{
+background:rgba(234,179,8,.12);
+border:1px solid rgba(234,179,8,.25);
+}
+
+.status-item.approved .status-icon{
+background:rgba(34,197,94,.15);
+border:1px solid rgba(34,197,94,.25);
+}
+
+.status-title{
+font-size:13px;
+opacity:.7;
+font-weight:600;
+}
+
+.status-number{
+font-size:24px;
+font-weight:800;
+margin-top:3px;
+}
+
+/* 🔥 TITULOS */
+.section-title{
+font-size:20px;
+font-weight:800;
+margin-top:18px;
+margin-bottom:12px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+/* 🔥 GRID PENDIENTES */
 #pendingGrid{
 display:flex;
 flex-direction:column;
 gap:10px;
 
+/* 🔥 ALTURA FIJA */
 height:420px;
-overflow-y:auto;
 
-padding:10px;
+/* 🔥 SCROLL INTERNO */
+overflow-y:auto;
+overflow-x:hidden;
+
 padding-right:4px;
 
+/* 🔥 SUAVIDAD */
 scroll-behavior:smooth;
+-webkit-overflow-scrolling:touch;
 
-background:rgba(2,6,23,.35);
-
-border-radius:22px;
+/* 🔥 EVITA QUE CREZCA */
+flex-shrink:0;
 }
 
-/* 🔥 SCROLL PENDIENTES */
 #pendingGrid::-webkit-scrollbar{
 width:5px;
-}
-
-#pendingGrid::-webkit-scrollbar-track{
-background:rgba(255,255,255,.03);
-border-radius:20px;
 }
 
 #pendingGrid::-webkit-scrollbar-thumb{
@@ -61,27 +226,25 @@ border-radius:20px;
 /* 🔥 PENDIENTES */
 .pending-card{
 background:rgba(15,23,42,.82);
-border-radius:16px;
-padding:10px;
+border-radius:18px;
+padding:12px;
 border:1px solid rgba(255,255,255,.04);
 backdrop-filter:blur(12px);
-
-min-height:auto;
 }
 
 .pending-top{
 display:flex;
-align-items:flex-start;
-gap:10px;
+align-items:center;
+gap:12px;
 }
 
 .pending-logo{
-width:54px;
-height:54px;
-border-radius:14px;
+width:62px;
+height:62px;
+border-radius:16px;
 object-fit:cover;
 background:#fff;
-padding:2px;
+padding:3px;
 flex-shrink:0;
 }
 
@@ -91,76 +254,85 @@ overflow:hidden;
 }
 
 .pending-name{
-font-size:13px;
+font-size:14px;
 font-weight:700;
-line-height:1.1;
+line-height:1.2;
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
 }
 
 .pending-meta{
-font-size:10px;
+font-size:11px;
 opacity:.8;
-margin-top:2px;
-line-height:1.2;
-}
-
-.pending-description{
-font-size:10px;
-opacity:.75;
-margin-top:4px;
-line-height:1.3;
-
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:vertical;
-overflow:hidden;
+margin-top:3px;
 }
 
 .pending-audio{
 width:100%;
-margin-top:6px;
-height:24px;
-
-transform:scale(.90);
-
-border-radius:8px;
+margin-top:10px;
+height:34px;
 }
 
 .pending-buttons{
 display:flex;
 gap:8px;
-margin-top:8px;
+margin-top:10px;
 }
 
 .pending-buttons button{
 flex:1;
-padding:8px;
-font-size:11px;
-border-radius:12px;
+padding:10px;
+font-size:12px;
 }
 
-/* 🔥 CONTENEDOR APROBADAS */
+/* 🔥 BOTONES */
+button{
+border:none;
+border-radius:14px;
+font-weight:700;
+cursor:pointer;
+font-family:Poppins;
+transition:.2s;
+color:#fff;
+}
+
+button:active{
+transform:scale(.96);
+}
+
+.approve{
+background:linear-gradient(180deg,#22c55e,#16a34a);
+}
+
+.delete{
+background:linear-gradient(180deg,#ef4444,#dc2626);
+}
+
+/* 🔥 APROBADAS */
 #approvedGrid{
 display:flex;
 flex-direction:column;
 gap:8px;
 
+/* 🔥 ALTURA FIJA */
 height:350px;
+
+/* 🔥 SCROLL INTERNO */
 overflow-y:auto;
+overflow-x:hidden;
 
-padding:10px;
 padding-right:4px;
+padding-bottom:8px;
 
+/* 🔥 SUAVIDAD */
 scroll-behavior:smooth;
+-webkit-overflow-scrolling:touch;
 
-background:rgba(2,6,23,.35);
-
-border-radius:22px;
+/* 🔥 EVITA QUE CREZCA */
+flex-shrink:0;
 }
 
-/* 🔥 SCROLL APROBADAS */
 #approvedGrid::-webkit-scrollbar{
 width:5px;
 }
@@ -233,6 +405,18 @@ overflow:hidden;
 text-overflow:ellipsis;
 }
 
+/* 🔥 VACIO */
+.empty{
+width:100%;
+padding:40px 16px;
+text-align:center;
+font-size:15px;
+font-weight:600;
+opacity:.75;
+background:rgba(15,23,42,.60);
+border-radius:22px;
+}
+
 /* 🔥 FOOTER */
 .footer{
 margin-top:18px;
@@ -241,7 +425,6 @@ display:flex;
 justify-content:center;
 }
 
-/* 🔥 FOOTER BOX */
 .footer-box{
 display:flex;
 align-items:center;
@@ -249,30 +432,22 @@ justify-content:center;
 gap:10px;
 padding:14px 22px;
 border-radius:18px;
-
 background:
 linear-gradient(
 180deg,
 rgba(30,41,59,.92),
 rgba(15,23,42,.95)
 );
-
 border:1px solid rgba(255,255,255,.06);
-
 box-shadow:
 0 8px 30px rgba(0,0,0,.35);
-
 backdrop-filter:blur(10px);
-
 font-size:12px;
 font-weight:700;
-
 color:#38bdf8;
-
 letter-spacing:.5px;
 }
 
-/* 🔥 ICONO */
 .footer-box i{
 font-size:15px;
 color:#22c55e;
@@ -386,306 +561,6 @@ RADIOS MULTIPLES © 2026
 </div>
 
 </div>
-
-<script>
-
-/* 🔥 API */
-const API_URL =
-"https://script.google.com/macros/s/AKfycbx6x3SlWnUmVPRnSbxB_eWouTJTpLygrrcP65Dvo_8thYHWSTLRYb5D2r1hwEqTsBqx_w/exec";
-
-/* 🔥 ELEMENTOS */
-const pendingGrid =
-document.getElementById("pendingGrid");
-
-const approvedGrid =
-document.getElementById("approvedGrid");
-
-const pendingCount =
-document.getElementById("pendingCount");
-
-const approvedCount =
-document.getElementById("approvedCount");
-
-/* 🔥 CREAR CARD */
-function crearCard(radio,pendiente=true,index=0){
-
-/* 🔥 PENDIENTES */
-if(pendiente){
-
-return `
-
-<div class="pending-card">
-
-<div class="pending-top">
-
-<img
-src="${radio.logo || 'https://via.placeholder.com/150'}"
-class="pending-logo"
-onerror="this.src='https://via.placeholder.com/150'">
-
-<div class="pending-content">
-
-<div class="pending-name">
-${radio.nombre || 'Sin nombre'}
-</div>
-
-<div class="pending-meta">
-🌎 ${radio.pais || 'Sin país'}
-</div>
-
-<div class="pending-meta">
-📍 ${radio.ciudad || 'Sin ciudad'}
-</div>
-
-</div>
-
-</div>
-
-<audio
-class="pending-audio"
-controls
-preload="none">
-
-<source
-src="${radio.stream || ''}"
-type="audio/mpeg">
-
-</audio>
-
-<div class="pending-buttons">
-
-<button
-class="approve"
-onclick="aprobar(${radio.fila})">
-
-✅ Aprobar
-
-</button>
-
-<button
-class="delete"
-onclick="eliminar(${radio.fila})">
-
-🗑 Eliminar
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-/* 🔥 APROBADAS */
-return `
-
-<div class="approved-item">
-
-<div class="approved-number">
-${index + 1}
-</div>
-
-<img
-src="${radio.logo || 'https://via.placeholder.com/150'}"
-class="approved-logo"
-onerror="this.src='https://via.placeholder.com/150'">
-
-<div class="approved-info">
-
-<div class="approved-name">
-${radio.nombre || 'Sin nombre'}
-</div>
-
-<div class="approved-meta">
-🌎 ${radio.pais || 'Sin país'} • 📍 ${radio.ciudad || 'Sin ciudad'}
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-/* 🔥 CARGAR RADIOS */
-async function cargarRadios(){
-
-pendingGrid.innerHTML =
-`
-<div class="empty">
-📡 Cargando radios...
-</div>
-`;
-
-approvedGrid.innerHTML =
-`
-<div class="empty">
-📡 Cargando radios...
-</div>
-`;
-
-try{
-
-const response =
-await fetch(
-API_URL + "?nocache=" + Date.now(),
-{
-method:"GET"
-}
-);
-
-if(!response.ok){
-
-throw new Error(
-"HTTP ERROR: " + response.status
-);
-
-}
-
-const data =
-await response.json();
-
-console.log("DATOS:",data);
-
-/* 🔥 LIMPIAR */
-pendingGrid.innerHTML = "";
-approvedGrid.innerHTML = "";
-
-/* 🔥 ARRAYS */
-const pendientes =
-Array.isArray(data.pendientes)
-? data.pendientes
-: [];
-
-const aprobadas =
-Array.isArray(data.aprobadas)
-? data.aprobadas
-: [];
-
-/* 🔥 CONTADORES */
-pendingCount.textContent =
-pendientes.length;
-
-approvedCount.textContent =
-aprobadas.length;
-
-/* 🔥 PENDIENTES */
-if(pendientes.length === 0){
-
-pendingGrid.innerHTML =
-`
-<div class="empty">
-✅ No hay radios pendientes
-</div>
-`;
-
-}else{
-
-pendientes.forEach((radio,index)=>{
-
-pendingGrid.innerHTML +=
-crearCard(radio,true,index);
-
-});
-
-}
-
-/* 🔥 APROBADAS */
-if(aprobadas.length === 0){
-
-approvedGrid.innerHTML =
-`
-<div class="empty">
-📻 No hay radios aprobadas
-</div>
-`;
-
-}else{
-
-aprobadas.forEach((radio,index)=>{
-
-approvedGrid.innerHTML +=
-crearCard(radio,false,index);
-
-});
-
-}
-
-}catch(error){
-
-console.log("ERROR:",error);
-
-pendingGrid.innerHTML =
-`
-<div class="empty">
-❌ Error cargando radios
-</div>
-`;
-
-approvedGrid.innerHTML =
-`
-<div class="empty">
-⚠️ ${error.message}
-</div>
-`;
-
-}
-
-}
-
-/* 🔥 APROBAR */
-async function aprobar(fila){
-
-try{
-
-await fetch(API_URL,{
-method:"POST",
-body:JSON.stringify({
-action:"aprobar",
-fila:fila
-})
-});
-
-cargarRadios();
-
-}catch(error){
-
-console.log("ERROR APROBAR:",error);
-
-}
-
-}
-
-/* 🔥 ELIMINAR */
-async function eliminar(fila){
-
-try{
-
-await fetch(API_URL,{
-method:"POST",
-body:JSON.stringify({
-action:"eliminar",
-fila:fila
-})
-});
-
-cargarRadios();
-
-}catch(error){
-
-console.log("ERROR ELIMINAR:",error);
-
-}
-
-}
-
-/* 🔥 INICIAR */
-window.onload = cargarRadios;
-
-</script>
 
 </body>
 </html>
