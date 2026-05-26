@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head> 
 
@@ -55,7 +55,6 @@ position:fixed;
 inset:0;
 }
 
-/* 🔥 APP */
 .admin-app{
 width:100%;
 height:100dvh;
@@ -66,7 +65,6 @@ padding-bottom:25px;
 -webkit-overflow-scrolling:touch;
 }
 
-/* 🔥 SCROLL */
 .admin-app::-webkit-scrollbar{
 width:3px;
 }
@@ -76,7 +74,6 @@ background:#334155;
 border-radius:20px;
 }
 
-/* 🔥 TOPBAR */
 .topbar{
 display:flex;
 flex-direction:column;
@@ -84,7 +81,6 @@ gap:12px;
 margin-bottom:15px;
 }
 
-/* 🔥 LOGO */
 .logo-box{
 display:flex;
 align-items:center;
@@ -107,7 +103,6 @@ padding:3px;
 flex-shrink:0;
 }
 
-/* 🔥 TITULO */
 h1{
 font-size:24px;
 font-weight:800;
@@ -120,7 +115,6 @@ margin-top:4px;
 font-size:12px;
 }
 
-/* 🔥 CONTADORES */
 .status-box{
 display:flex;
 flex-direction:column;
@@ -180,7 +174,6 @@ font-weight:800;
 margin-top:3px;
 }
 
-/* 🔥 TITULOS */
 .section-title{
 font-size:20px;
 font-weight:800;
@@ -191,26 +184,16 @@ align-items:center;
 gap:8px;
 }
 
-/* 🔥 GRID PENDIENTES */
 #pendingGrid{
 display:flex;
 flex-direction:column;
 gap:10px;
-
-/* 🔥 ALTURA FIJA */
 height:420px;
-
-/* 🔥 SCROLL INTERNO */
 overflow-y:auto;
 overflow-x:hidden;
-
 padding-right:4px;
-
-/* 🔥 SUAVIDAD */
 scroll-behavior:smooth;
 -webkit-overflow-scrolling:touch;
-
-/* 🔥 EVITA QUE CREZCA */
 flex-shrink:0;
 }
 
@@ -223,7 +206,6 @@ background:#334155;
 border-radius:20px;
 }
 
-/* 🔥 PENDIENTES */
 .pending-card{
 background:rgba(15,23,42,.82);
 border-radius:18px;
@@ -286,7 +268,6 @@ padding:10px;
 font-size:12px;
 }
 
-/* 🔥 BOTONES */
 button{
 border:none;
 border-radius:14px;
@@ -309,37 +290,22 @@ background:linear-gradient(180deg,#22c55e,#16a34a);
 background:linear-gradient(180deg,#ef4444,#dc2626);
 }
 
-/* 🔥 APROBADAS */
 #approvedGrid{
 display:flex;
 flex-direction:column;
 gap:8px;
-
-/* 🔥 ALTURA FIJA */
 height:350px;
-
-/* 🔥 SCROLL INTERNO */
 overflow-y:auto;
 overflow-x:hidden;
-
 padding-right:4px;
 padding-bottom:8px;
-
-/* 🔥 SUAVIDAD */
 scroll-behavior:smooth;
 -webkit-overflow-scrolling:touch;
-
-/* 🔥 EVITA QUE CREZCA */
 flex-shrink:0;
 }
 
 #approvedGrid::-webkit-scrollbar{
 width:5px;
-}
-
-#approvedGrid::-webkit-scrollbar-track{
-background:rgba(255,255,255,.03);
-border-radius:20px;
 }
 
 #approvedGrid::-webkit-scrollbar-thumb{
@@ -405,7 +371,6 @@ overflow:hidden;
 text-overflow:ellipsis;
 }
 
-/* 🔥 VACIO */
 .empty{
 width:100%;
 padding:40px 16px;
@@ -417,7 +382,6 @@ background:rgba(15,23,42,.60);
 border-radius:22px;
 }
 
-/* 🔥 FOOTER */
 .footer{
 margin-top:18px;
 padding-bottom:10px;
@@ -461,7 +425,6 @@ color:#22c55e;
 
 <div class="admin-app">
 
-<!-- 🔥 HEADER -->
 <div class="topbar">
 
 <div class="logo-box">
@@ -484,7 +447,6 @@ Panel Administrativo
 
 </div>
 
-<!-- 🔥 CONTADORES -->
 <div class="status-box">
 
 <div class="status-item pending">
@@ -531,21 +493,18 @@ Radios Aprobadas
 
 </div>
 
-<!-- 🔥 PENDIENTES -->
 <div class="section-title">
 🕒 Radios Pendientes
 </div>
 
 <div id="pendingGrid"></div>
 
-<!-- 🔥 APROBADAS -->
 <div class="section-title">
 ✅ Radios Aprobadas
 </div>
 
 <div id="approvedGrid"></div>
 
-<!-- 🔥 FOOTER -->
 <div class="footer">
     
 <div class="footer-box">
@@ -561,6 +520,224 @@ RADIOS MULTIPLES © 2026
 </div>
 
 </div>
+
+<!-- 🔥 SCRIPT CONECTADO A GOOGLE APPS SCRIPT -->
+<script>
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbx6x3SlWnUmVPRnSbxB_eWouTJTpLygrrcP65Dvo_8thYHWSTLRYb5D2r1hwEqTsBqx_w/exec";
+
+const pendingGrid = document.getElementById("pendingGrid");
+const approvedGrid = document.getElementById("approvedGrid");
+
+const pendingCount = document.getElementById("pendingCount");
+const approvedCount = document.getElementById("approvedCount");
+
+/* 🔥 CARGAR DATOS */
+async function loadRadios(){
+
+try{
+
+pendingGrid.innerHTML =
+`<div class="empty">Cargando radios...</div>`;
+
+const response = await fetch(API_URL);
+
+const data = await response.json();
+
+renderPending(data.pending || []);
+renderApproved(data.approved || []);
+
+}catch(error){
+
+console.error(error);
+
+pendingGrid.innerHTML =
+`<div class="empty">Error conectando con Google Script</div>`;
+
+approvedGrid.innerHTML =
+`<div class="empty">Sin datos</div>`;
+
+}
+
+}
+
+/* 🔥 MOSTRAR PENDIENTES */
+function renderPending(radios){
+
+pendingCount.textContent = radios.length;
+
+if(!radios.length){
+
+pendingGrid.innerHTML =
+`<div class="empty">No hay radios pendientes</div>`;
+
+return;
+
+}
+
+pendingGrid.innerHTML = radios.map(r => `
+
+<div class="pending-card">
+
+<div class="pending-top">
+
+<img
+src="${r.logo || ''}"
+class="pending-logo">
+
+<div class="pending-content">
+
+<div class="pending-name">
+${r.name || 'Sin nombre'}
+</div>
+
+<div class="pending-meta">
+${r.country || ''}
+</div>
+
+</div>
+
+</div>
+
+<audio controls class="pending-audio">
+<source src="${r.stream || ''}">
+</audio>
+
+<div class="pending-buttons">
+
+<button
+class="approve"
+onclick="approveRadio('${r.id}')">
+
+Aprobar
+
+</button>
+
+<button
+class="delete"
+onclick="deleteRadio('${r.id}')">
+
+Eliminar
+
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+/* 🔥 MOSTRAR APROBADAS */
+function renderApproved(radios){
+
+approvedCount.textContent = radios.length;
+
+if(!radios.length){
+
+approvedGrid.innerHTML =
+`<div class="empty">No hay radios aprobadas</div>`;
+
+return;
+
+}
+
+approvedGrid.innerHTML = radios.map((r,index)=>`
+
+<div class="approved-item">
+
+<div class="approved-number">
+${index + 1}
+</div>
+
+<img
+src="${r.logo || ''}"
+class="approved-logo">
+
+<div class="approved-info">
+
+<div class="approved-name">
+${r.name || 'Sin nombre'}
+</div>
+
+<div class="approved-meta">
+${r.country || ''}
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+/* 🔥 APROBAR RADIO */
+async function approveRadio(id){
+
+try{
+
+await fetch(API_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"approve",
+id:id
+})
+});
+
+loadRadios();
+
+}catch(error){
+
+alert("Error al aprobar");
+
+console.error(error);
+
+}
+
+}
+
+/* 🔥 ELIMINAR RADIO */
+async function deleteRadio(id){
+
+const ok = confirm("¿Eliminar esta radio?");
+
+if(!ok) return;
+
+try{
+
+await fetch(API_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"delete",
+id:id
+})
+});
+
+loadRadios();
+
+}catch(error){
+
+alert("Error al eliminar");
+
+console.error(error);
+
+}
+
+}
+
+/* 🔥 INICIAR */
+loadRadios();
+
+</script>
 
 </body>
 </html>
