@@ -495,7 +495,7 @@ RADIOS MULTIPLES © 2026
 
 /* 🔥 API */
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwgRVdAVfqPd49W7u7WOtZ7QAgF8M_5S3ZvQR3bkFgclnf2JZ4EEloGR0RmtpVaOMjG/exec";
+"https://script.google.com/macros/s/AKfycbwzEX38fSoHGew3FI3-A57sGO2E6VxSkMM-Yu7OaeSwpqEWNmN3JaV2wpGlkgXwZWYuXA/exec";
 
 /* 🔥 ELEMENTOS */
 const pendingGrid =
@@ -530,7 +530,7 @@ await fetch(API_URL + "?t=" + Date.now());
 const data =
 await response.json();
 
-console.log(data);
+console.log("DATOS:", data);
 
 /* 🔥 LIMPIAR */
 pendingGrid.innerHTML = "";
@@ -550,50 +550,41 @@ pendientes.length;
 approvedCount.innerText =
 aprobadas.length;
 
-/* 🔥 PENDIENTES */
-if(pendientes.length===0){
+/* 🔥 FUNCION CREAR CARD */
+function crearCard(radio, mostrarBotones = false){
 
-pendingGrid.innerHTML =
-`
-<div class="empty">
-✅ No hay radios pendientes
-</div>
-`;
-
-}else{
-
-pendientes.forEach(radio=>{
-
-pendingGrid.innerHTML += `
+return `
 
 <div class="card">
 
 <img
-src="${radio.Logo || ''}"
+src="${radio.logo || ''}"
 class="logo"
 onerror="this.src='https://via.placeholder.com/150'">
 
 <div class="name">
-${radio.Nombre || 'Sin nombre'}
+${radio.nombre || 'Sin nombre'}
 </div>
 
 <div class="info">
-🌎 ${radio["País"] || ''}
+🌎 ${radio.pais || ''}
 </div>
 
 <div class="info">
-📍 ${radio.Ciudad || ''}
+📍 ${radio.ciudad || ''}
 </div>
 
 <div class="info">
-${radio["Descripción"] || ""}
+${radio.descripcion || ""}
 </div>
 
 <audio
 controls
 preload="none"
-src="${radio.Stream || ''}">
+src="${radio.stream || ''}">
 </audio>
+
+${mostrarBotones ? `
 
 <div class="buttons">
 
@@ -615,9 +606,30 @@ onclick="eliminar(${radio.fila})">
 
 </div>
 
+` : ""}
+
 </div>
 
 `;
+
+}
+
+/* 🔥 PENDIENTES */
+if(pendientes.length===0){
+
+pendingGrid.innerHTML =
+`
+<div class="empty">
+✅ No hay radios pendientes
+</div>
+`;
+
+}else{
+
+pendientes.forEach(radio=>{
+
+pendingGrid.innerHTML +=
+crearCard(radio,true);
 
 });
 
@@ -637,40 +649,8 @@ approvedGrid.innerHTML =
 
 aprobadas.forEach(radio=>{
 
-approvedGrid.innerHTML += `
-
-<div class="card">
-
-<img
-src="${radio.Logo || ''}"
-class="logo"
-onerror="this.src='https://via.placeholder.com/150'">
-
-<div class="name">
-${radio.Nombre || 'Sin nombre'}
-</div>
-
-<div class="info">
-🌎 ${radio["País"] || ''}
-</div>
-
-<div class="info">
-📍 ${radio.Ciudad || ''}
-</div>
-
-<div class="info">
-${radio["Descripción"] || ""}
-</div>
-
-<audio
-controls
-preload="none"
-src="${radio.Stream || ''}">
-</audio>
-
-</div>
-
-`;
+approvedGrid.innerHTML +=
+crearCard(radio,false);
 
 });
 
@@ -678,12 +658,14 @@ src="${radio.Stream || ''}">
 
 }catch(error){
 
-console.log(error);
+console.log("ERROR:", error);
 
 pendingGrid.innerHTML =
 `
 <div class="empty">
 ❌ Error cargando radios
+<br><br>
+Revisa permisos del Apps Script
 </div>
 `;
 
@@ -725,5 +707,6 @@ cargarRadios();
 cargarRadios();
 
 </script>
+
 </body>
 </html>
