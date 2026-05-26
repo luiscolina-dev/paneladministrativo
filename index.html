@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head> 
 
@@ -587,9 +587,443 @@ height:32dvh;
 
 <div class="admin-app">
 
-<!-- TU HTML ORIGINAL SIGUE IGUAL -->
+<div class="topbar">
+
+<div class="logo-box">
+
+<img
+src="https://i.ibb.co/qY7V1cVg/4008656-splash.png"
+class="panel-logo">
+
+<div>
+
+<h1>
+RADIOS MULTIPLES
+</h1>
+
+<p class="subtitle">
+Panel Administrativo
+</p>
 
 </div>
+
+</div>
+
+<div class="status-box">
+
+<div class="status-item pending">
+
+<div class="status-icon">
+🕒
+</div>
+
+<div>
+
+<div class="status-title">
+Radios Pendientes
+</div>
+
+<div class="status-number" id="pendingCount">
+0
+</div>
+
+</div>
+
+</div>
+
+<div class="status-item approved">
+
+<div class="status-icon">
+✅
+</div>
+
+<div>
+
+<div class="status-title">
+Radios Aprobadas
+</div>
+
+<div class="status-number" id="approvedCount">
+0
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="section-title">
+🕒 Radios Pendientes
+</div>
+
+<div id="pendingGrid"></div>
+
+<div class="section-title">
+✅ Radios Aprobadas
+</div>
+
+<div id="approvedGrid"></div>
+
+<div class="footer">
+    
+<div class="footer-box">
+
+<i class="fas fa-radio"></i>
+
+<span>
+RADIOS MULTIPLES © 2026
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* 🔥 API */
+const API_URL =
+"https://script.google.com/macros/s/AKfycbx6x3SlWnUmVPRnSbxB_eWouTJTpLygrrcP65Dvo_8thYHWSTLRYb5D2r1hwEqTsBqx_w/exec";
+
+/* 🔥 ELEMENTOS */
+const pendingGrid =
+document.getElementById("pendingGrid");
+
+const approvedGrid =
+document.getElementById("approvedGrid");
+
+const pendingCount =
+document.getElementById("pendingCount");
+
+const approvedCount =
+document.getElementById("approvedCount");
+
+/* 🔥 CACHE */
+let ultimaCantidadPendientes = 0;
+let ultimaCantidadAprobadas = 0;
+
+/* 🔥 CREAR CARD */
+function crearCard(radio,pendiente=true,index=0){
+
+if(pendiente){
+
+return `
+
+<div class="pending-card">
+
+<div class="pending-top">
+
+<img
+src="${radio.logo || 'https://via.placeholder.com/150'}"
+class="pending-logo"
+onerror="this.src='https://via.placeholder.com/150'">
+
+<div class="pending-content">
+
+<div class="pending-name">
+${radio.nombre || 'Sin nombre'}
+</div>
+
+<div class="pending-meta">
+🌎 ${radio.pais || 'Sin país'}
+</div>
+
+<div class="pending-meta">
+📍 ${radio.ciudad || 'Sin ciudad'}
+</div>
+
+</div>
+
+</div>
+
+<audio
+class="pending-audio"
+controls
+preload="none">
+
+<source
+src="${radio.stream || ''}"
+type="audio/mpeg">
+
+</audio>
+
+<div class="pending-buttons">
+
+<button
+class="approve"
+onclick="aprobar(${radio.fila})">
+
+✅ Aprobar
+
+</button>
+
+<button
+class="delete"
+onclick="eliminar(${radio.fila})">
+
+🗑 Eliminar
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+return `
+
+<div class="approved-item">
+
+<div class="approved-number">
+${index + 1}
+</div>
+
+<img
+src="${radio.logo || 'https://via.placeholder.com/150'}"
+class="approved-logo"
+onerror="this.src='https://via.placeholder.com/150'">
+
+<div class="approved-info">
+
+<div class="approved-name">
+${radio.nombre || 'Sin nombre'}
+</div>
+
+<div class="approved-meta">
+🌎 ${radio.pais || 'Sin país'} • 📍 ${radio.ciudad || 'Sin ciudad'}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+/* 🔥 CARGAR RADIOS */
+async function cargarRadios(){
+
+try{
+
+const response =
+await fetch(
+API_URL + "?nocache=" + Date.now(),
+{
+method:"GET",
+mode:"cors",
+cache:"no-store"
+}
+);
+
+const data =
+await response.json();
+
+/* 🔥 ARRAYS */
+const pendientes =
+Array.isArray(data.pendientes)
+? data.pendientes
+: [];
+
+const aprobadas =
+Array.isArray(data.aprobadas)
+? data.aprobadas
+: [];
+
+/* 🔥 SI HAY CAMBIOS */
+if(
+pendientes.length !== ultimaCantidadPendientes ||
+aprobadas.length !== ultimaCantidadAprobadas
+){
+
+ultimaCantidadPendientes =
+pendientes.length;
+
+ultimaCantidadAprobadas =
+aprobadas.length;
+
+/* 🔥 LIMPIAR */
+pendingGrid.innerHTML = "";
+approvedGrid.innerHTML = "";
+
+/* 🔥 CONTADORES */
+pendingCount.textContent =
+pendientes.length;
+
+approvedCount.textContent =
+aprobadas.length;
+
+/* 🔥 PENDIENTES */
+if(pendientes.length === 0){
+
+pendingGrid.innerHTML =
+`
+<div class="empty">
+✅ No hay radios pendientes
+</div>
+`;
+
+}else{
+
+pendientes.forEach((radio,index)=>{
+
+pendingGrid.innerHTML +=
+crearCard(radio,true,index);
+
+});
+
+}
+
+/* 🔥 APROBADAS */
+if(aprobadas.length === 0){
+
+approvedGrid.innerHTML =
+`
+<div class="empty">
+📻 No hay radios aprobadas
+</div>
+`;
+
+}else{
+
+aprobadas.forEach((radio,index)=>{
+
+approvedGrid.innerHTML +=
+crearCard(radio,false,index);
+
+});
+
+}
+
+}
+
+}catch(error){
+
+console.log("ERROR:",error);
+
+}
+
+}
+
+/* 🔥 APROBAR */
+async function aprobar(fila){
+
+try{
+
+await fetch(API_URL,{
+
+method:"POST",
+
+mode:"cors",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"aprobar",
+
+fila:fila
+
+})
+
+});
+
+setTimeout(()=>{
+
+cargarRadios();
+
+},1000);
+
+}catch(error){
+
+console.log("ERROR APROBAR:",error);
+
+alert("❌ Error al aprobar");
+
+}
+
+}
+
+/* 🔥 ELIMINAR */
+async function eliminar(fila){
+
+const confirmar =
+confirm("¿Eliminar esta radio?");
+
+if(!confirmar) return;
+
+try{
+
+await fetch(API_URL,{
+
+method:"POST",
+
+mode:"cors",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"eliminar",
+
+fila:fila
+
+})
+
+});
+
+setTimeout(()=>{
+
+cargarRadios();
+
+},1000);
+
+}catch(error){
+
+console.log("ERROR ELIMINAR:",error);
+
+alert("❌ Error al eliminar");
+
+}
+
+}
+
+/* 🔥 RECARGA RAPIDA */
+setInterval(()=>{
+
+cargarRadios();
+
+},3000);
+
+/* 🔥 INICIAR */
+window.onload = ()=>{
+
+cargarRadios();
+
+/* 🔥 ACTUALIZA AL VOLVER */
+document.addEventListener(
+"visibilitychange",
+()=>{
+if(!document.hidden){
+cargarRadios();
+}
+}
+);
+
+};
+
+</script>
 
 </body>
 </html>
