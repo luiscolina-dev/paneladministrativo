@@ -793,49 +793,120 @@ crearCard(radio,true,index)
 
 }
 
-/* 🔥 APROBADAS */
-if(aprobadas.length === 0){
+/* 🔥 APROBAR */
+async function aprobar(fila){
 
-approvedGrid.innerHTML =
-`
-<div class="empty">
-📻 No hay radios aprobadas
-</div>
-`;
+try{
 
-}else{
+const response = await fetch(API_URL,{
 
-approvedGrid.innerHTML =
-aprobadas.map((radio,index)=>
-crearCard(radio,false,index)
-).join("");
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body: JSON.stringify({
+
+action:"aprobar",
+
+fila:fila
+
+})
+
+});
+
+if(!response.ok){
+
+throw new Error(
+"HTTP ERROR: " + response.status
+);
 
 }
+
+const data =
+await response.json();
+
+console.log("APROBADA:",data);
+
+/* 🔥 RECARGA INSTANTE */
+await cargarRadios();
 
 }catch(error){
 
-console.log("ERROR:",error);
+console.log(
+"ERROR APROBAR:",
+error
+);
 
-pendingGrid.innerHTML =
-`
-<div class="empty">
-❌ Error cargando radios
-</div>
-`;
-
-approvedGrid.innerHTML =
-`
-<div class="empty">
-⚠️ ${error.message}
-</div>
-`;
+alert(
+"❌ Error al aprobar"
+);
 
 }
 
-cargando = false;
+}
+
+/* 🔥 ELIMINAR */
+async function eliminar(fila){
+
+const confirmar =
+confirm(
+"¿Eliminar esta radio?"
+);
+
+if(!confirmar) return;
+
+try{
+
+const response = await fetch(API_URL,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body: JSON.stringify({
+
+action:"eliminar",
+
+fila:fila
+
+})
+
+});
+
+if(!response.ok){
+
+throw new Error(
+"HTTP ERROR: " + response.status
+);
 
 }
 
+const data =
+await response.json();
+
+console.log("ELIMINADA:",data);
+
+/* 🔥 RECARGA INSTANTE */
+await cargarRadios();
+
+}catch(error){
+
+console.log(
+"ERROR ELIMINAR:",
+error
+);
+
+alert(
+"❌ Error al eliminar"
+);
+
+}
+
+}
 /* 🔥 APROBAR */
 async function aprobar(fila){
 
