@@ -513,6 +513,91 @@ document.getElementById("approvedCount");
 /* 🔥 CREAR CARD */
 function crearCard(radio,pendiente=true){
 
+/* 🔥 CARD PENDIENTE COMPACTA */
+if(pendiente){
+
+return `
+
+<div class="card">
+
+<div style="
+display:flex;
+align-items:center;
+gap:14px;
+">
+
+<img
+src="${radio.logo || ''}"
+class="logo"
+style="
+width:72px;
+height:72px;
+margin:0;
+flex-shrink:0;
+"
+onerror="this.src='https://via.placeholder.com/150'">
+
+<div style="flex:1;">
+
+<div class="name"
+style="
+margin-top:0;
+text-align:left;
+font-size:16px;
+">
+${radio.nombre || 'Sin nombre'}
+</div>
+
+<div class="info"
+style="
+text-align:left;
+margin-top:4px;
+">
+🌎 ${radio.pais || ''}
+</div>
+
+<div class="info"
+style="
+text-align:left;
+margin-top:2px;
+">
+📍 ${radio.ciudad || ''}
+</div>
+
+</div>
+
+</div>
+
+<div class="buttons"
+style="
+margin-top:14px;
+">
+
+<button
+class="approve"
+onclick="aprobar(${radio.fila})">
+
+✅ Aprobar
+
+</button>
+
+<button
+class="delete"
+onclick="eliminar(${radio.fila})">
+
+🗑 Eliminar
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+/* 🔥 CARD APROBADA */
 return `
 
 <div class="card">
@@ -543,36 +628,6 @@ controls
 preload="none"
 src="${radio.stream || ''}">
 </audio>
-
-${
-pendiente
-?
-`
-
-<div class="buttons">
-
-<button
-class="approve"
-onclick="aprobar(${radio.fila})">
-
-✅ Aprobar
-
-</button>
-
-<button
-class="delete"
-onclick="eliminar(${radio.fila})">
-
-🗑 Eliminar
-
-</button>
-
-</div>
-
-`
-:
-''
-}
 
 </div>
 
