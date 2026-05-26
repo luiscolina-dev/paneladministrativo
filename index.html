@@ -191,97 +191,97 @@ align-items:center;
 gap:8px;
 }
 
-/* 🔥 GRID */
-.grid{
-display:grid;
-grid-template-columns:1fr;
-gap:14px;
-}
-
-/* 🔥 SCROLL APROBADAS */
-#approvedGrid{
-max-height:650px;
+/* 🔥 GRID PENDIENTES */
+#pendingGrid{
+display:flex;
+flex-direction:column;
+gap:10px;
+max-height:420px;
 overflow-y:auto;
 padding-right:4px;
 }
 
-#approvedGrid::-webkit-scrollbar{
-width:4px;
+#pendingGrid::-webkit-scrollbar{
+width:5px;
 }
 
-#approvedGrid::-webkit-scrollbar-thumb{
+#pendingGrid::-webkit-scrollbar-thumb{
 background:#334155;
 border-radius:20px;
 }
 
-/* 🔥 CARD */
-.card{
+/* 🔥 PENDIENTES */
+.pending-card{
 background:rgba(15,23,42,.82);
-border-radius:24px;
-padding:18px;
+border-radius:18px;
+padding:12px;
 border:1px solid rgba(255,255,255,.04);
 backdrop-filter:blur(12px);
+}
+
+.pending-top{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.pending-logo{
+width:62px;
+height:62px;
+border-radius:16px;
+object-fit:cover;
+background:#fff;
+padding:3px;
+flex-shrink:0;
+}
+
+.pending-content{
+flex:1;
 overflow:hidden;
 }
 
-/* 🔥 LOGO RADIO */
-.logo{
-width:95px;
-height:95px;
-border-radius:22px;
-object-fit:cover;
-display:block;
-margin:auto;
-background:#fff;
-padding:4px;
-}
-
-/* 🔥 NOMBRE */
-.name{
-font-size:18px;
-font-weight:800;
-margin-top:14px;
-text-align:center;
+.pending-name{
+font-size:14px;
+font-weight:700;
 line-height:1.2;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 
-/* 🔥 INFO */
-.info{
-font-size:12px;
-opacity:.9;
-margin-top:6px;
-text-align:center;
-line-height:1.5;
-word-break:break-word;
-color:#cbd5e1;
+.pending-meta{
+font-size:11px;
+opacity:.8;
+margin-top:3px;
 }
 
-/* 🔥 AUDIO */
-audio{
+.pending-audio{
 width:100%;
-margin-top:12px;
-height:38px;
-border-radius:12px;
+margin-top:10px;
+height:34px;
+}
+
+.pending-buttons{
+display:flex;
+gap:8px;
+margin-top:10px;
+}
+
+.pending-buttons button{
+flex:1;
+padding:10px;
+font-size:12px;
 }
 
 /* 🔥 BOTONES */
-.buttons{
-display:flex;
-flex-direction:column;
-gap:10px;
-margin-top:14px;
-}
-
 button{
-width:100%;
 border:none;
-padding:12px;
-border-radius:15px;
+border-radius:14px;
 font-weight:700;
 cursor:pointer;
-font-size:13px;
 font-family:Poppins;
 transition:.2s;
+color:#fff;
 }
 
 button:active{
@@ -290,12 +290,94 @@ transform:scale(.96);
 
 .approve{
 background:linear-gradient(180deg,#22c55e,#16a34a);
-color:#fff;
 }
 
 .delete{
 background:linear-gradient(180deg,#ef4444,#dc2626);
-color:#fff;
+}
+
+/* 🔥 APROBADAS */
+#approvedGrid{
+display:flex;
+flex-direction:column;
+gap:8px;
+max-height:350px;
+overflow-y:auto;
+padding-right:4px;
+padding-bottom:8px;
+scroll-behavior:smooth;
+}
+
+#approvedGrid::-webkit-scrollbar{
+width:5px;
+}
+
+#approvedGrid::-webkit-scrollbar-track{
+background:rgba(255,255,255,.03);
+border-radius:20px;
+}
+
+#approvedGrid::-webkit-scrollbar-thumb{
+background:#166534;
+border-radius:20px;
+}
+
+.approved-item{
+display:flex;
+align-items:center;
+gap:10px;
+padding:10px 12px;
+background:rgba(15,23,42,.78);
+border-radius:16px;
+border:1px solid rgba(255,255,255,.03);
+min-height:64px;
+}
+
+.approved-number{
+width:28px;
+height:28px;
+border-radius:10px;
+background:#166534;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:11px;
+font-weight:800;
+flex-shrink:0;
+}
+
+.approved-logo{
+width:40px;
+height:40px;
+border-radius:12px;
+object-fit:cover;
+background:#fff;
+padding:2px;
+flex-shrink:0;
+}
+
+.approved-info{
+flex:1;
+min-width:0;
+overflow:hidden;
+}
+
+.approved-name{
+font-size:12px;
+font-weight:700;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+line-height:1.2;
+}
+
+.approved-meta{
+font-size:10px;
+opacity:.72;
+margin-top:2px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 
 /* 🔥 VACIO */
@@ -313,119 +395,46 @@ border-radius:22px;
 /* 🔥 FOOTER */
 .footer{
 margin-top:18px;
-padding-bottom:8px;
+padding-bottom:10px;
+display:flex;
+justify-content:center;
 }
 
 /* 🔥 FOOTER BOX */
 .footer-box{
-width:100%;
-
-padding:14px;
-
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+padding:14px 22px;
 border-radius:18px;
-
-text-align:center;
-
-font-size:12px;
-font-weight:700;
-letter-spacing:.5px;
-
-color:#cbd5e1;
 
 background:
 linear-gradient(
 180deg,
-rgba(15,23,42,.95),
-rgba(2,6,23,.95)
+rgba(30,41,59,.92),
+rgba(15,23,42,.95)
 );
 
-border:1px solid rgba(255,255,255,.05);
-
-backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.06);
 
 box-shadow:
-0 4px 18px rgba(0,0,0,.35);
+0 8px 30px rgba(0,0,0,.35);
+
+backdrop-filter:blur(10px);
+
+font-size:12px;
+font-weight:700;
+
+color:#38bdf8;
+
+letter-spacing:.5px;
 }
 
-/* 🔥 TABLET */
-@media(min-width:700px){
-
-.admin-app{
-padding:20px;
-}
-
-.status-box{
-flex-direction:row;
-}
-
-.status-item{
-flex:1;
-}
-
-.grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.buttons{
-flex-direction:row;
-}
-
-button{
-flex:1;
-}
-
-}
-
-/* 🔥 PC */
-@media(min-width:1100px){
-
-.grid{
-grid-template-columns:repeat(3,1fr);
-}
-
-h1{
-font-size:30px;
-}
-
-.section-title{
-font-size:24px;
-}
-
-}
-
-/* 🔥 TELEFONOS PEQUEÑOS */
-@media(max-height:740px){
-
-.admin-app{
-padding:10px;
-}
-
-.panel-logo{
-width:58px;
-height:58px;
-}
-
-h1{
-font-size:21px;
-}
-
-.status-item{
-padding:11px;
-}
-
-.section-title{
-font-size:18px;
-}
-
-.logo{
-width:85px;
-height:85px;
-}
-
-.card{
-padding:15px;
-}
-
+/* 🔥 ICONO */
+.footer-box i{
+font-size:15px;
+color:#22c55e;
 }
 
 </style>
@@ -511,28 +520,28 @@ Radios Aprobadas
 🕒 Radios Pendientes
 </div>
 
-<div
-class="grid"
-id="pendingGrid">
-
-</div>
+<div id="pendingGrid"></div>
 
 <!-- 🔥 APROBADAS -->
 <div class="section-title">
 ✅ Radios Aprobadas
 </div>
 
-<div
-class="grid"
-id="approvedGrid">
-
-</div>
+<div id="approvedGrid"></div>
 
 <!-- 🔥 FOOTER -->
 <div class="footer">
+    
+    <div class="footer-box">
 
-<div class="footer-box">
-RADIOS MULTIPLES © 2026
+        <i class="fas fa-radio"></i>
+
+        <span>
+        RADIOS MULTIPLES © 2026
+        </span>
+
+    </div>
+
 </div>
 
 </div>
@@ -557,86 +566,48 @@ const approvedCount =
 document.getElementById("approvedCount");
 
 /* 🔥 CREAR CARD */
-function crearCard(radio,pendiente=true){
+function crearCard(radio,pendiente=true,index=0){
 
-/* 🔥 PENDIENTES CON PLAYER */
+/* 🔥 PENDIENTES */
 if(pendiente){
 
 return `
 
-<div class="card">
+<div class="pending-card">
 
-<div style="
-display:flex;
-align-items:center;
-gap:14px;
-">
+<div class="pending-top">
 
 <img
 src="${radio.logo || ''}"
-class="logo"
-style="
-width:72px;
-height:72px;
-margin:0;
-flex-shrink:0;
-"
+class="pending-logo"
 onerror="this.src='https://via.placeholder.com/150'">
 
-<div style="flex:1;">
+<div class="pending-content">
 
-<div class="name"
-style="
-margin-top:0;
-text-align:left;
-font-size:16px;
-">
+<div class="pending-name">
 ${radio.nombre || 'Sin nombre'}
 </div>
 
-<div class="info"
-style="
-text-align:left;
-margin-top:4px;
-">
+<div class="pending-meta">
 🌎 ${radio.pais || ''}
 </div>
 
-<div class="info"
-style="
-text-align:left;
-margin-top:2px;
-">
+<div class="pending-meta">
 📍 ${radio.ciudad || ''}
 </div>
 
-<div class="info"
-style="
-text-align:left;
-margin-top:4px;
-">
-${radio.descripcion || ''}
 </div>
 
 </div>
 
-</div>
-
-<!-- 🔥 PLAYER -->
 <audio
+class="pending-audio"
 controls
 preload="none"
-style="
-margin-top:14px;
-width:100%;
-"
 src="${radio.stream || ''}">
 </audio>
 
-<div class="buttons"
-style="
-margin-top:14px;
-">
+<div class="pending-buttons">
 
 <button
 class="approve"
@@ -662,77 +633,28 @@ onclick="eliminar(${radio.fila})">
 
 }
 
-/* 🔥 APROBADAS LISTA */
+/* 🔥 APROBADAS */
 return `
 
-<div class="card"
-style="
-padding:14px;
-">
+<div class="approved-item">
 
-<div style="
-display:flex;
-align-items:center;
-gap:14px;
-">
-
-<div style="
-width:34px;
-height:34px;
-border-radius:12px;
-background:#1e293b;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:800;
-font-size:14px;
-flex-shrink:0;
-">
-${radio.numero}
+<div class="approved-number">
+${index + 1}
 </div>
 
 <img
 src="${radio.logo || ''}"
-class="logo"
-style="
-width:62px;
-height:62px;
-margin:0;
-flex-shrink:0;
-"
+class="approved-logo"
 onerror="this.src='https://via.placeholder.com/150'">
 
-<div style="
-flex:1;
-min-width:0;
-">
+<div class="approved-info">
 
-<div class="name"
-style="
-margin-top:0;
-text-align:left;
-font-size:16px;
-line-height:1.2;
-">
+<div class="approved-name">
 ${radio.nombre || 'Sin nombre'}
 </div>
 
-<div class="info"
-style="
-text-align:left;
-margin-top:4px;
-">
-🌎 ${radio.pais || ''}
-</div>
-
-<div class="info"
-style="
-text-align:left;
-margin-top:2px;
-">
-📍 ${radio.ciudad || ''}
-</div>
-
+<div class="approved-meta">
+🌎 ${radio.pais || ''} • 📍 ${radio.ciudad || ''}
 </div>
 
 </div>
@@ -824,10 +746,10 @@ pendingGrid.innerHTML =
 
 }else{
 
-pendientes.forEach(radio=>{
+pendientes.forEach((radio,index)=>{
 
 pendingGrid.innerHTML +=
-crearCard(radio,true);
+crearCard(radio,true,index);
 
 });
 
@@ -847,10 +769,8 @@ approvedGrid.innerHTML =
 
 aprobadas.forEach((radio,index)=>{
 
-radio.numero = index + 1;
-
 approvedGrid.innerHTML +=
-crearCard(radio,false);
+crearCard(radio,false,index);
 
 });
 
