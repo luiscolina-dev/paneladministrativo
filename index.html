@@ -1,6 +1,6 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
-<head> 
+<head>
 
 <meta charset="UTF-8">
 
@@ -53,8 +53,15 @@ background-attachment:fixed;
 color:#fff;
 position:fixed;
 inset:0;
+
+padding:
+env(safe-area-inset-top)
+env(safe-area-inset-right)
+env(safe-area-inset-bottom)
+env(safe-area-inset-left);
 }
 
+/* 🔥 APP */
 .admin-app{
 width:100%;
 height:100dvh;
@@ -63,8 +70,10 @@ overflow-x:hidden;
 padding:14px;
 padding-bottom:25px;
 -webkit-overflow-scrolling:touch;
+scroll-behavior:smooth;
 }
 
+/* 🔥 SCROLL */
 .admin-app::-webkit-scrollbar{
 width:3px;
 }
@@ -74,6 +83,7 @@ background:#334155;
 border-radius:20px;
 }
 
+/* 🔥 TOPBAR */
 .topbar{
 display:flex;
 flex-direction:column;
@@ -81,6 +91,7 @@ gap:12px;
 margin-bottom:15px;
 }
 
+/* 🔥 LOGO */
 .logo-box{
 display:flex;
 align-items:center;
@@ -115,6 +126,7 @@ margin-top:4px;
 font-size:12px;
 }
 
+/* 🔥 STATUS */
 .status-box{
 display:flex;
 flex-direction:column;
@@ -174,6 +186,7 @@ font-weight:800;
 margin-top:3px;
 }
 
+/* 🔥 TITULOS */
 .section-title{
 font-size:20px;
 font-weight:800;
@@ -184,34 +197,43 @@ align-items:center;
 gap:8px;
 }
 
+/* 🔥 GRID PENDIENTES */
 #pendingGrid{
 display:flex;
 flex-direction:column;
 gap:10px;
-height:420px;
-overflow-y:auto;
-overflow-x:hidden;
-padding-right:4px;
-scroll-behavior:smooth;
--webkit-overflow-scrolling:touch;
-flex-shrink:0;
+min-height:120px;
 }
 
-#pendingGrid::-webkit-scrollbar{
-width:5px;
+/* 🔥 GRID APROBADAS */
+#approvedGrid{
+display:flex;
+flex-direction:column;
+gap:8px;
+min-height:120px;
+padding-bottom:8px;
 }
 
-#pendingGrid::-webkit-scrollbar-thumb{
-background:#334155;
-border-radius:20px;
-}
-
+/* 🔥 CARD */
 .pending-card{
 background:rgba(15,23,42,.82);
 border-radius:18px;
 padding:12px;
 border:1px solid rgba(255,255,255,.04);
 backdrop-filter:blur(12px);
+
+animation:fadeIn .35s ease;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 .pending-top{
@@ -253,9 +275,12 @@ margin-top:3px;
 .pending-audio{
 width:100%;
 margin-top:10px;
-height:34px;
+height:42px;
+border-radius:14px;
+overflow:hidden;
 }
 
+/* 🔥 BOTONES */
 .pending-buttons{
 display:flex;
 gap:8px;
@@ -264,8 +289,8 @@ margin-top:10px;
 
 .pending-buttons button{
 flex:1;
-padding:10px;
-font-size:12px;
+padding:12px;
+font-size:13px;
 }
 
 button{
@@ -290,29 +315,7 @@ background:linear-gradient(180deg,#22c55e,#16a34a);
 background:linear-gradient(180deg,#ef4444,#dc2626);
 }
 
-#approvedGrid{
-display:flex;
-flex-direction:column;
-gap:8px;
-height:350px;
-overflow-y:auto;
-overflow-x:hidden;
-padding-right:4px;
-padding-bottom:8px;
-scroll-behavior:smooth;
--webkit-overflow-scrolling:touch;
-flex-shrink:0;
-}
-
-#approvedGrid::-webkit-scrollbar{
-width:5px;
-}
-
-#approvedGrid::-webkit-scrollbar-thumb{
-background:#166534;
-border-radius:20px;
-}
-
+/* 🔥 APROBADAS */
 .approved-item{
 display:flex;
 align-items:center;
@@ -322,6 +325,7 @@ background:rgba(15,23,42,.78);
 border-radius:16px;
 border:1px solid rgba(255,255,255,.03);
 min-height:64px;
+animation:fadeIn .35s ease;
 }
 
 .approved-number{
@@ -371,6 +375,7 @@ overflow:hidden;
 text-overflow:ellipsis;
 }
 
+/* 🔥 EMPTY */
 .empty{
 width:100%;
 padding:40px 16px;
@@ -382,6 +387,7 @@ background:rgba(15,23,42,.60);
 border-radius:22px;
 }
 
+/* 🔥 FOOTER */
 .footer{
 margin-top:18px;
 padding-bottom:10px;
@@ -415,6 +421,82 @@ letter-spacing:.5px;
 .footer-box i{
 font-size:15px;
 color:#22c55e;
+}
+
+/* 🔥 RESPONSIVE */
+@media (max-width:480px){
+
+h1{
+font-size:20px;
+}
+
+.section-title{
+font-size:17px;
+}
+
+.status-number{
+font-size:20px;
+}
+
+.pending-logo{
+width:55px;
+height:55px;
+}
+
+.panel-logo{
+width:58px;
+height:58px;
+}
+
+.pending-name{
+font-size:13px;
+}
+
+.approved-name{
+font-size:11px;
+}
+
+.pending-buttons button{
+padding:10px;
+font-size:12px;
+}
+
+.pending-audio{
+height:40px;
+}
+
+}
+
+@media (min-width:768px){
+
+.admin-app{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.topbar{
+flex-direction:row;
+align-items:stretch;
+}
+
+.logo-box{
+flex:1;
+}
+
+.status-box{
+width:320px;
+}
+
+}
+
+@media (min-width:1200px){
+
+.admin-app{
+max-width:1200px;
+margin:auto;
+}
+
 }
 
 </style>
@@ -506,7 +588,7 @@ Radios Aprobadas
 <div id="approvedGrid"></div>
 
 <div class="footer">
-    
+
 <div class="footer-box">
 
 <i class="fas fa-radio"></i>
@@ -521,7 +603,6 @@ RADIOS MULTIPLES © 2026
 
 </div>
 
-<!-- 🔥 SCRIPT CONECTADO A GOOGLE APPS SCRIPT -->
 <script>
 
 /* 🔥 API */
@@ -541,10 +622,12 @@ document.getElementById("pendingCount");
 const approvedCount =
 document.getElementById("approvedCount");
 
+/* 🔥 CONTROL */
+let cargando = false;
+
 /* 🔥 CREAR CARD */
 function crearCard(radio,pendiente=true,index=0){
 
-/* 🔥 PENDIENTES */
 if(pendiente){
 
 return `
@@ -613,7 +696,6 @@ onclick="eliminar(${radio.fila})">
 
 }
 
-/* 🔥 APROBADAS */
 return `
 
 <div class="approved-item">
@@ -648,19 +730,9 @@ ${radio.nombre || 'Sin nombre'}
 /* 🔥 CARGAR RADIOS */
 async function cargarRadios(){
 
-pendingGrid.innerHTML =
-`
-<div class="empty">
-📡 Cargando radios...
-</div>
-`;
+if(cargando) return;
 
-approvedGrid.innerHTML =
-`
-<div class="empty">
-📡 Cargando radios...
-</div>
-`;
+cargando = true;
 
 try{
 
@@ -669,7 +741,8 @@ await fetch(
 API_URL + "?nocache=" + Date.now(),
 {
 method:"GET",
-mode:"cors"
+mode:"cors",
+cache:"no-store"
 }
 );
 
@@ -684,13 +757,6 @@ throw new Error(
 const data =
 await response.json();
 
-console.log("DATOS:",data);
-
-/* 🔥 LIMPIAR */
-pendingGrid.innerHTML = "";
-approvedGrid.innerHTML = "";
-
-/* 🔥 ARRAYS */
 const pendientes =
 Array.isArray(data.pendientes)
 ? data.pendientes
@@ -720,12 +786,10 @@ pendingGrid.innerHTML =
 
 }else{
 
-pendientes.forEach((radio,index)=>{
-
-pendingGrid.innerHTML +=
-crearCard(radio,true,index);
-
-});
+pendingGrid.innerHTML =
+pendientes.map((radio,index)=>
+crearCard(radio,true,index)
+).join("");
 
 }
 
@@ -741,12 +805,10 @@ approvedGrid.innerHTML =
 
 }else{
 
-aprobadas.forEach((radio,index)=>{
-
-approvedGrid.innerHTML +=
-crearCard(radio,false,index);
-
-});
+approvedGrid.innerHTML =
+aprobadas.map((radio,index)=>
+crearCard(radio,false,index)
+).join("");
 
 }
 
@@ -769,6 +831,8 @@ approvedGrid.innerHTML =
 `;
 
 }
+
+cargando = false;
 
 }
 
@@ -797,7 +861,12 @@ fila:fila
 
 });
 
-await cargarRadios();
+/* 🔥 RECARGA INMEDIATA */
+setTimeout(()=>{
+
+cargarRadios();
+
+},800);
 
 }catch(error){
 
@@ -839,7 +908,12 @@ fila:fila
 
 });
 
-await cargarRadios();
+/* 🔥 RECARGA INMEDIATA */
+setTimeout(()=>{
+
+cargarRadios();
+
+},800);
 
 }catch(error){
 
@@ -851,15 +925,33 @@ alert("❌ Error al eliminar");
 
 }
 
-/* 🔥 AUTO RECARGA */
+/* 🔥 ACTUALIZA SIEMPRE */
 setInterval(()=>{
 
 cargarRadios();
 
-},30000);
+},5000);
+
+/* 🔥 RECARGA AL VOLVER */
+document.addEventListener(
+"visibilitychange",
+()=>{
+
+if(!document.hidden){
+
+cargarRadios();
+
+}
+
+}
+);
 
 /* 🔥 INICIAR */
-window.onload = cargarRadios;
+window.onload = ()=>{
+
+cargarRadios();
+
+};
 
 </script>
 
