@@ -400,7 +400,6 @@ display:flex;
 justify-content:center;
 }
 
-/* 🔥 FOOTER BOX */
 .footer-box{
 display:flex;
 align-items:center;
@@ -408,30 +407,22 @@ justify-content:center;
 gap:10px;
 padding:14px 22px;
 border-radius:18px;
-
 background:
 linear-gradient(
 180deg,
 rgba(30,41,59,.92),
 rgba(15,23,42,.95)
 );
-
 border:1px solid rgba(255,255,255,.06);
-
 box-shadow:
 0 8px 30px rgba(0,0,0,.35);
-
 backdrop-filter:blur(10px);
-
 font-size:12px;
 font-weight:700;
-
 color:#38bdf8;
-
 letter-spacing:.5px;
 }
 
-/* 🔥 ICONO */
 .footer-box i{
 font-size:15px;
 color:#22c55e;
@@ -532,15 +523,15 @@ Radios Aprobadas
 <!-- 🔥 FOOTER -->
 <div class="footer">
     
-    <div class="footer-box">
+<div class="footer-box">
 
-        <i class="fas fa-radio"></i>
+<i class="fas fa-radio"></i>
 
-        <span>
-        RADIOS MULTIPLES © 2026
-        </span>
+<span>
+RADIOS MULTIPLES © 2026
+</span>
 
-    </div>
+</div>
 
 </div>
 
@@ -578,7 +569,7 @@ return `
 <div class="pending-top">
 
 <img
-src="${radio.logo || ''}"
+src="${radio.logo || 'https://via.placeholder.com/150'}"
 class="pending-logo"
 onerror="this.src='https://via.placeholder.com/150'">
 
@@ -589,11 +580,11 @@ ${radio.nombre || 'Sin nombre'}
 </div>
 
 <div class="pending-meta">
-🌎 ${radio.pais || ''}
+🌎 ${radio.pais || 'Sin país'}
 </div>
 
 <div class="pending-meta">
-📍 ${radio.ciudad || ''}
+📍 ${radio.ciudad || 'Sin ciudad'}
 </div>
 
 </div>
@@ -603,8 +594,12 @@ ${radio.nombre || 'Sin nombre'}
 <audio
 class="pending-audio"
 controls
-preload="none"
-src="${radio.stream || ''}">
+preload="none">
+
+<source
+src="${radio.stream || ''}"
+type="audio/mpeg">
+
 </audio>
 
 <div class="pending-buttons">
@@ -643,7 +638,7 @@ ${index + 1}
 </div>
 
 <img
-src="${radio.logo || ''}"
+src="${radio.logo || 'https://via.placeholder.com/150'}"
 class="approved-logo"
 onerror="this.src='https://via.placeholder.com/150'">
 
@@ -654,7 +649,7 @@ ${radio.nombre || 'Sin nombre'}
 </div>
 
 <div class="approved-meta">
-🌎 ${radio.pais || ''} • 📍 ${radio.ciudad || ''}
+🌎 ${radio.pais || 'Sin país'} • 📍 ${radio.ciudad || 'Sin ciudad'}
 </div>
 
 </div>
@@ -686,13 +681,9 @@ try{
 
 const response =
 await fetch(
-API_URL + "?nocache=" + new Date().getTime(),
+API_URL + "?nocache=" + Date.now(),
 {
-method:"GET",
-mode:"cors",
-headers:{
-"Accept":"application/json"
-}
+method:"GET"
 }
 );
 
@@ -704,13 +695,10 @@ throw new Error(
 
 }
 
-const text =
-await response.text();
-
-console.log("RESPUESTA:",text);
-
 const data =
-JSON.parse(text);
+await response.json();
+
+console.log("DATOS:",data);
 
 /* 🔥 LIMPIAR */
 pendingGrid.innerHTML = "";
