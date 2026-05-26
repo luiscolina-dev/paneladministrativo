@@ -493,7 +493,7 @@ RADIOS MULTIPLES © 2026
 
 <script>
 
-/* 🔥 API NUEVA */
+/* 🔥 API CORREGIDA */
 const API_URL =
 "https://script.google.com/macros/s/AKfycbwgRVdAVfqPd49W7u7WOtZ7QAgF8M_5S3ZvQR3bkFgclnf2JZ4EEloGR0RmtpVaOMjG/exec";
 
@@ -510,7 +510,7 @@ document.getElementById("pendingCount");
 const approvedCount =
 document.getElementById("approvedCount");
 
-/* 🔥 CARGAR */
+/* 🔥 CARGAR RADIOS */
 async function cargarRadios(){
 
 pendingGrid.innerHTML =
@@ -524,26 +524,18 @@ approvedGrid.innerHTML = "";
 
 try{
 
-const response = await fetch(API_URL + "?t=" + Date.now(),{
-method:"GET",
-cache:"no-store"
-});
+const response =
+await fetch(API_URL + "?t=" + Date.now());
 
-const text = await response.text();
-
-let data = {};
-
-try{
-
-data = JSON.parse(text);
-
-}catch(e){
-
-console.log("Respuesta inválida:", text);
-
-throw new Error("JSON inválido");
-
+/* 🔥 VALIDAR RESPUESTA */
+if(!response.ok){
+throw new Error("Error en API");
 }
+
+const data =
+await response.json();
+
+console.log("DATOS:", data);
 
 /* 🔥 LIMPIAR */
 pendingGrid.innerHTML = "";
@@ -551,10 +543,14 @@ approvedGrid.innerHTML = "";
 
 /* 🔥 VALIDAR */
 const pendientes =
-data.pendientes || [];
+Array.isArray(data.pendientes)
+? data.pendientes
+: [];
 
 const aprobadas =
-data.aprobadas || [];
+Array.isArray(data.aprobadas)
+? data.aprobadas
+: [];
 
 /* 🔥 CONTADORES */
 pendingCount.innerText =
@@ -563,8 +559,8 @@ pendientes.length;
 approvedCount.innerText =
 aprobadas.length;
 
-/* 🔥 SIN PENDIENTES */
-if(pendientes.length===0){
+/* 🔥 PENDIENTES */
+if(pendientes.length === 0){
 
 pendingGrid.innerHTML =
 `
@@ -582,20 +578,20 @@ pendingGrid.innerHTML += `
 <div class="card">
 
 <img
-src="${radio.logo}"
+src="${radio.logo || 'https://via.placeholder.com/150'}"
 class="logo"
 onerror="this.src='https://via.placeholder.com/150'">
 
 <div class="name">
-${radio.nombre}
+${radio.nombre || 'Sin nombre'}
 </div>
 
 <div class="info">
-🌎 ${radio.pais}
+🌎 ${radio.pais || 'Sin país'}
 </div>
 
 <div class="info">
-📍 ${radio.ciudad}
+📍 ${radio.ciudad || 'Sin ciudad'}
 </div>
 
 <div class="info">
@@ -605,7 +601,7 @@ ${radio.descripcion || ""}
 <audio
 controls
 preload="none"
-src="${radio.stream}">
+src="${radio.stream || ''}">
 </audio>
 
 <div class="buttons">
@@ -636,8 +632,8 @@ onclick="eliminar(${radio.fila})">
 
 }
 
-/* 🔥 SIN APROBADAS */
-if(aprobadas.length===0){
+/* 🔥 APROBADAS */
+if(aprobadas.length === 0){
 
 approvedGrid.innerHTML =
 `
@@ -655,20 +651,20 @@ approvedGrid.innerHTML += `
 <div class="card">
 
 <img
-src="${radio.logo}"
+src="${radio.logo || 'https://via.placeholder.com/150'}"
 class="logo"
 onerror="this.src='https://via.placeholder.com/150'">
 
 <div class="name">
-${radio.nombre}
+${radio.nombre || 'Sin nombre'}
 </div>
 
 <div class="info">
-🌎 ${radio.pais}
+🌎 ${radio.pais || 'Sin país'}
 </div>
 
 <div class="info">
-📍 ${radio.ciudad}
+📍 ${radio.ciudad || 'Sin ciudad'}
 </div>
 
 <div class="info">
@@ -678,7 +674,7 @@ ${radio.descripcion || ""}
 <audio
 controls
 preload="none"
-src="${radio.stream}">
+src="${radio.stream || ''}">
 </audio>
 
 </div>
@@ -691,7 +687,7 @@ src="${radio.stream}">
 
 }catch(error){
 
-console.log(error);
+console.log("ERROR:", error);
 
 pendingGrid.innerHTML =
 `
@@ -700,12 +696,16 @@ pendingGrid.innerHTML =
 </div>
 `;
 
+approvedGrid.innerHTML = "";
+
 }
 
 }
 
 /* 🔥 APROBAR */
 async function aprobar(fila){
+
+try{
 
 await fetch(API_URL,{
 method:"POST",
@@ -717,10 +717,18 @@ fila:fila
 
 cargarRadios();
 
+}catch(error){
+
+console.log(error);
+
+}
+
 }
 
 /* 🔥 ELIMINAR */
 async function eliminar(fila){
+
+try{
 
 await fetch(API_URL,{
 method:"POST",
@@ -732,12 +740,17 @@ fila:fila
 
 cargarRadios();
 
+}catch(error){
+
+console.log(error);
+
+}
+
 }
 
 /* 🔥 INICIAR */
 cargarRadios();
 
 </script>
-
 </body>
 </html>
