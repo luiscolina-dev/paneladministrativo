@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head> 
 
 <meta charset="UTF-8">
 
@@ -540,12 +540,8 @@ ${radio.descripcion || ''}
 
 <audio
 controls
-preload="none">
-
-<source
-src="${radio.stream || ''}"
-type="audio/mpeg">
-
+preload="none"
+src="${radio.stream || ''}">
 </audio>
 
 ${
@@ -605,25 +601,31 @@ try{
 
 const response =
 await fetch(
-API_URL + "?t=" + Date.now(),
+API_URL + "?nocache=" + new Date().getTime(),
 {
-method:"GET"
+method:"GET",
+mode:"cors",
+headers:{
+"Accept":"application/json"
+}
 }
 );
 
-/* 🔥 VALIDAR */
 if(!response.ok){
 
 throw new Error(
-"Error HTTP " + response.status
+"HTTP ERROR: " + response.status
 );
 
 }
 
-const data =
-await response.json();
+const text =
+await response.text();
 
-console.log("DATOS:",data);
+console.log("RESPUESTA:",text);
+
+const data =
+JSON.parse(text);
 
 /* 🔥 LIMPIAR */
 pendingGrid.innerHTML = "";
@@ -703,7 +705,7 @@ pendingGrid.innerHTML =
 approvedGrid.innerHTML =
 `
 <div class="empty">
-⚠️ Revisa Apps Script
+⚠️ ${error.message}
 </div>
 `;
 
@@ -728,7 +730,7 @@ cargarRadios();
 
 }catch(error){
 
-console.log(error);
+console.log("ERROR APROBAR:",error);
 
 }
 
@@ -751,14 +753,14 @@ cargarRadios();
 
 }catch(error){
 
-console.log(error);
+console.log("ERROR ELIMINAR:",error);
 
 }
 
 }
 
 /* 🔥 INICIAR */
-cargarRadios();
+window.onload = cargarRadios;
 
 </script>
 
