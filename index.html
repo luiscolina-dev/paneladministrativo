@@ -628,6 +628,7 @@ let cargando = false;
 /* 🔥 CREAR CARD */
 function crearCard(radio,pendiente=true,index=0){
 
+/* 🔥 PENDIENTES */
 if(pendiente){
 
 return `
@@ -696,6 +697,7 @@ onclick="eliminar(${radio.fila})">
 
 }
 
+/* 🔥 APROBADAS */
 return `
 
 <div class="approved-item">
@@ -741,7 +743,6 @@ await fetch(
 API_URL + "?nocache=" + Date.now(),
 {
 method:"GET",
-mode:"cors",
 cache:"no-store"
 }
 );
@@ -757,6 +758,9 @@ throw new Error(
 const data =
 await response.json();
 
+console.log("DATOS:",data);
+
+/* 🔥 ARRAYS */
 const pendientes =
 Array.isArray(data.pendientes)
 ? data.pendientes
@@ -841,32 +845,29 @@ async function aprobar(fila){
 
 try{
 
-await fetch(API_URL,{
+const response = await fetch(API_URL,{
 
 method:"POST",
 
-mode:"cors",
-
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"application/x-www-form-urlencoded"
 },
 
-body:JSON.stringify({
-
-action:"aprobar",
-
-fila:fila
-
-})
+body:
+"action=aprobar&fila=" + encodeURIComponent(fila)
 
 });
+
+const texto = await response.text();
+
+console.log(texto);
 
 /* 🔥 RECARGA INMEDIATA */
 setTimeout(()=>{
 
 cargarRadios();
 
-},800);
+},1000);
 
 }catch(error){
 
@@ -888,32 +889,29 @@ if(!confirmar) return;
 
 try{
 
-await fetch(API_URL,{
+const response = await fetch(API_URL,{
 
 method:"POST",
 
-mode:"cors",
-
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"application/x-www-form-urlencoded"
 },
 
-body:JSON.stringify({
-
-action:"eliminar",
-
-fila:fila
-
-})
+body:
+"action=eliminar&fila=" + encodeURIComponent(fila)
 
 });
+
+const texto = await response.text();
+
+console.log(texto);
 
 /* 🔥 RECARGA INMEDIATA */
 setTimeout(()=>{
 
 cargarRadios();
 
-},800);
+},1000);
 
 }catch(error){
 
@@ -925,14 +923,14 @@ alert("❌ Error al eliminar");
 
 }
 
-/* 🔥 ACTUALIZA SIEMPRE */
+/* 🔥 AUTO ACTUALIZACIÓN */
 setInterval(()=>{
 
 cargarRadios();
 
 },5000);
 
-/* 🔥 RECARGA AL VOLVER */
+/* 🔥 RECARGAR AL VOLVER */
 document.addEventListener(
 "visibilitychange",
 ()=>{
