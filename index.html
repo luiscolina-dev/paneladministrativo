@@ -495,7 +495,7 @@ RADIOS MULTIPLES © 2026
 
 /* 🔥 API */
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwzEX38fSoHGew3FI3-A57sGO2E6VxSkMM-Yu7OaeSwpqEWNmN3JaV2wpGlkgXwZWYuXA/exec";
+"https://script.google.com/macros/s/AKfycbx6x3SlWnUmVPRnSbxB_eWouTJTpLygrrcP65Dvo_8thYHWSTLRYb5D2r1hwEqTsBqx_w/exec";
 
 /* 🔥 ELEMENTOS */
 const pendingGrid =
@@ -510,7 +510,7 @@ document.getElementById("pendingCount");
 const approvedCount =
 document.getElementById("approvedCount");
 
-/* 🔥 CARGAR */
+/* 🔥 CARGAR RADIOS */
 async function cargarRadios(){
 
 pendingGrid.innerHTML =
@@ -536,12 +536,16 @@ console.log("DATOS:", data);
 pendingGrid.innerHTML = "";
 approvedGrid.innerHTML = "";
 
-/* 🔥 VALIDAR */
+/* 🔥 ARRAYS */
 const pendientes =
-data.pendientes || [];
+Array.isArray(data.pendientes)
+? data.pendientes
+: [];
 
 const aprobadas =
-data.aprobadas || [];
+Array.isArray(data.aprobadas)
+? data.aprobadas
+: [];
 
 /* 🔥 CONTADORES */
 pendingCount.innerText =
@@ -550,10 +554,21 @@ pendientes.length;
 approvedCount.innerText =
 aprobadas.length;
 
-/* 🔥 FUNCION CREAR CARD */
-function crearCard(radio, mostrarBotones = false){
+/* 🔥 PENDIENTES */
+if(pendientes.length === 0){
 
-return `
+pendingGrid.innerHTML =
+`
+<div class="empty">
+✅ No hay radios pendientes
+</div>
+`;
+
+}else{
+
+pendientes.forEach(radio=>{
+
+pendingGrid.innerHTML += `
 
 <div class="card">
 
@@ -575,7 +590,7 @@ ${radio.nombre || 'Sin nombre'}
 </div>
 
 <div class="info">
-${radio.descripcion || ""}
+${radio.descripcion || ''}
 </div>
 
 <audio
@@ -583,8 +598,6 @@ controls
 preload="none"
 src="${radio.stream || ''}">
 </audio>
-
-${mostrarBotones ? `
 
 <div class="buttons">
 
@@ -606,37 +619,16 @@ onclick="eliminar(${radio.fila})">
 
 </div>
 
-` : ""}
-
 </div>
 
 `;
-
-}
-
-/* 🔥 PENDIENTES */
-if(pendientes.length===0){
-
-pendingGrid.innerHTML =
-`
-<div class="empty">
-✅ No hay radios pendientes
-</div>
-`;
-
-}else{
-
-pendientes.forEach(radio=>{
-
-pendingGrid.innerHTML +=
-crearCard(radio,true);
 
 });
 
 }
 
 /* 🔥 APROBADAS */
-if(aprobadas.length===0){
+if(aprobadas.length === 0){
 
 approvedGrid.innerHTML =
 `
@@ -649,8 +641,40 @@ approvedGrid.innerHTML =
 
 aprobadas.forEach(radio=>{
 
-approvedGrid.innerHTML +=
-crearCard(radio,false);
+approvedGrid.innerHTML += `
+
+<div class="card">
+
+<img
+src="${radio.logo || ''}"
+class="logo"
+onerror="this.src='https://via.placeholder.com/150'">
+
+<div class="name">
+${radio.nombre || 'Sin nombre'}
+</div>
+
+<div class="info">
+🌎 ${radio.pais || ''}
+</div>
+
+<div class="info">
+📍 ${radio.ciudad || ''}
+</div>
+
+<div class="info">
+${radio.descripcion || ''}
+</div>
+
+<audio
+controls
+preload="none"
+src="${radio.stream || ''}">
+</audio>
+
+</div>
+
+`;
 
 });
 
@@ -664,8 +688,13 @@ pendingGrid.innerHTML =
 `
 <div class="empty">
 ❌ Error cargando radios
-<br><br>
-Revisa permisos del Apps Script
+</div>
+`;
+
+approvedGrid.innerHTML =
+`
+<div class="empty">
+⚠️ Revisa Apps Script
 </div>
 `;
 
@@ -675,6 +704,8 @@ Revisa permisos del Apps Script
 
 /* 🔥 APROBAR */
 async function aprobar(fila){
+
+try{
 
 await fetch(API_URL,{
 method:"POST",
@@ -686,10 +717,18 @@ fila:fila
 
 cargarRadios();
 
+}catch(error){
+
+console.log(error);
+
+}
+
 }
 
 /* 🔥 ELIMINAR */
 async function eliminar(fila){
+
+try{
 
 await fetch(API_URL,{
 method:"POST",
@@ -700,6 +739,12 @@ fila:fila
 });
 
 cargarRadios();
+
+}catch(error){
+
+console.log(error);
+
+}
 
 }
 
