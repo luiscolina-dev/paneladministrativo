@@ -841,23 +841,44 @@ async function aprobar(fila){
 
 try{
 
-const formData = new URLSearchParams();
-
-formData.append("action","aprobar");
-formData.append("fila",fila);
-
 const response = await fetch(API_URL,{
 
 method:"POST",
 
-body:formData
+headers:{
+"Content-Type":"application/json"
+},
+
+body: JSON.stringify({
+
+action:"aprobar",
+
+fila:fila
+
+})
 
 });
 
-const resultado =
-await response.text();
+const data = await response.json();
 
-console.log("APROBAR:",resultado);
+console.log(data);
+
+/* 🔥 RECARGA */
+setTimeout(()=>{
+
+cargarRadios();
+
+},800);
+
+}catch(error){
+
+console.log("ERROR APROBAR:",error);
+
+alert("❌ Error al aprobar");
+
+}
+
+}
 
 /* 🔥 RECARGA INSTANTE */
 await cargarRadios();
@@ -882,23 +903,44 @@ if(!confirmar) return;
 
 try{
 
-const formData = new URLSearchParams();
-
-formData.append("action","eliminar");
-formData.append("fila",fila);
-
 const response = await fetch(API_URL,{
 
 method:"POST",
 
-body:formData
+headers:{
+"Content-Type":"application/json"
+},
+
+body: JSON.stringify({
+
+action:"eliminar",
+
+fila:fila
+
+})
 
 });
 
-const resultado =
-await response.text();
+const data = await response.json();
 
-console.log("ELIMINAR:",resultado);
+console.log(data);
+
+/* 🔥 RECARGA */
+setTimeout(()=>{
+
+cargarRadios();
+
+},800);
+
+}catch(error){
+
+console.log("ERROR ELIMINAR:",error);
+
+alert("❌ Error al eliminar");
+
+}
+
+}
 
 /* 🔥 RECARGA INSTANTE */
 await cargarRadios();
