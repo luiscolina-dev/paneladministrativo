@@ -416,6 +416,118 @@ letter-spacing:.5px;
 font-size:15px;
 color:#22c55e;
 }
+/* 🔥 RESPONSIVE */
+
+/* 📱 MOVILES PEQUEÑOS */
+@media (max-width:480px){
+
+h1{
+font-size:20px;
+}
+
+.section-title{
+font-size:17px;
+}
+
+.status-number{
+font-size:20px;
+}
+
+.pending-logo{
+width:55px;
+height:55px;
+}
+
+.panel-logo{
+width:58px;
+height:58px;
+}
+
+.pending-name{
+font-size:13px;
+}
+
+.approved-name{
+font-size:11px;
+}
+
+#pendingGrid{
+height:38dvh;
+}
+
+#approvedGrid{
+height:30dvh;
+}
+
+}
+
+/* 📲 TABLETS */
+@media (min-width:768px){
+
+.admin-app{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.topbar{
+flex-direction:row;
+align-items:stretch;
+}
+
+.logo-box{
+flex:1;
+}
+
+.status-box{
+width:320px;
+}
+
+#pendingGrid{
+height:45dvh;
+}
+
+#approvedGrid{
+height:32dvh;
+}
+
+}
+
+/* 🖥 PANTALLAS GRANDES */
+@media (min-width:1200px){
+
+.admin-app{
+max-width:1200px;
+margin:auto;
+}
+
+#pendingGrid{
+height:50dvh;
+}
+
+#approvedGrid{
+height:35dvh;
+}
+
+}
+
+/* 🔥 EVITA ZOOM IOS */
+input,
+select,
+textarea,
+button{
+font-size:16px;
+}
+
+/* 🔥 AJUSTE SAFE AREA IPHONE */
+body{
+padding:
+env(safe-area-inset-top)
+env(safe-area-inset-right)
+env(safe-area-inset-bottom)
+env(safe-area-inset-left);
+}
+    
 
 </style>
 
