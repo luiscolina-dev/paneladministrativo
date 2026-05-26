@@ -198,6 +198,22 @@ grid-template-columns:1fr;
 gap:14px;
 }
 
+/* 🔥 SCROLL APROBADAS */
+#approvedGrid{
+max-height:650px;
+overflow-y:auto;
+padding-right:4px;
+}
+
+#approvedGrid::-webkit-scrollbar{
+width:4px;
+}
+
+#approvedGrid::-webkit-scrollbar-thumb{
+background:#334155;
+border-radius:20px;
+}
+
 /* 🔥 CARD */
 .card{
 background:rgba(15,23,42,.82);
@@ -513,7 +529,7 @@ document.getElementById("approvedCount");
 /* 🔥 CREAR CARD */
 function crearCard(radio,pendiente=true){
 
-/* 🔥 CARD PENDIENTE COMPACTA */
+/* 🔥 PENDIENTES CON PLAYER */
 if(pendiente){
 
 return `
@@ -564,9 +580,28 @@ margin-top:2px;
 📍 ${radio.ciudad || ''}
 </div>
 
+<div class="info"
+style="
+text-align:left;
+margin-top:4px;
+">
+${radio.descripcion || ''}
 </div>
 
 </div>
+
+</div>
+
+<!-- 🔥 PLAYER -->
+<audio
+controls
+preload="none"
+style="
+margin-top:14px;
+width:100%;
+"
+src="${radio.stream || ''}">
+</audio>
 
 <div class="buttons"
 style="
@@ -597,37 +632,80 @@ onclick="eliminar(${radio.fila})">
 
 }
 
-/* 🔥 CARD APROBADA */
+/* 🔥 APROBADAS LISTA */
 return `
 
-<div class="card">
+<div class="card"
+style="
+padding:14px;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:14px;
+">
+
+<div style="
+width:34px;
+height:34px;
+border-radius:12px;
+background:#1e293b;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:800;
+font-size:14px;
+flex-shrink:0;
+">
+${radio.numero}
+</div>
 
 <img
 src="${radio.logo || ''}"
 class="logo"
+style="
+width:62px;
+height:62px;
+margin:0;
+flex-shrink:0;
+"
 onerror="this.src='https://via.placeholder.com/150'">
 
-<div class="name">
+<div style="
+flex:1;
+min-width:0;
+">
+
+<div class="name"
+style="
+margin-top:0;
+text-align:left;
+font-size:16px;
+line-height:1.2;
+">
 ${radio.nombre || 'Sin nombre'}
 </div>
 
-<div class="info">
+<div class="info"
+style="
+text-align:left;
+margin-top:4px;
+">
 🌎 ${radio.pais || ''}
 </div>
 
-<div class="info">
+<div class="info"
+style="
+text-align:left;
+margin-top:2px;
+">
 📍 ${radio.ciudad || ''}
 </div>
 
-<div class="info">
-${radio.descripcion || ''}
 </div>
 
-<audio
-controls
-preload="none"
-src="${radio.stream || ''}">
-</audio>
+</div>
 
 </div>
 
@@ -737,7 +815,9 @@ approvedGrid.innerHTML =
 
 }else{
 
-aprobadas.forEach(radio=>{
+aprobadas.forEach((radio,index)=>{
+
+radio.numero = index + 1;
 
 approvedGrid.innerHTML +=
 crearCard(radio,false);
